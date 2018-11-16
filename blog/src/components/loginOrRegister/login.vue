@@ -14,7 +14,7 @@
 					<el-form-item prop="account">
 						<el-input
 						    placeholder="输入账号"
-						    suffix-icon="el-icon-tickets"
+						    suffix-icon="el-icon-phone"
 						    v-model="ruleForm.account"
 						    id="login-user-input"
 						    >
@@ -81,8 +81,15 @@
 	    	submitForm(formName) {
 		        this.$refs[formName].validate((valid) => {
 		          if (valid) {
-		            console.log(this.ruleForm.account);
-		            console.log(this.ruleForm.password);
+		            axios.post('http://api.blog.com/version',{
+		            	
+		            })
+		            .then(response => {
+		            	console.log(response);
+		            })
+		            .catch(error => {
+		            	console.log(error);
+		            })
 		          } else {
 		            console.log('error submit!!');
 		            return false;

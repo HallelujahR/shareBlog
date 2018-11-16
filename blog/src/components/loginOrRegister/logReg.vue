@@ -9,7 +9,7 @@
 	    <div id="log-main">
 			<transition name="slide-fade">
 			    <login @reg='reg' v-if="show1"></login>
-				<register v-else></register>
+				<register @log='log' v-else></register>
 		  	</transition>
 	  	</div>
 	   
@@ -33,8 +33,10 @@
 	    methods:{
 	    	reg() {
 	    		this.show1 = false;
-	    	},
-	    	
+	    	},	    	
+	    	log() {
+	    		this.show1 = true;
+	    	}
 	    }
 
 	}

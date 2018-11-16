@@ -1,0 +1,103 @@
+#register{
+	height:auto;
+	width:50%;
+}
+#register-title{
+	color:white;
+	font-size:20px;
+	font-weight:bold;
+	/*border:1px solid red;*/
+	text-align:left;
+}
+.register-user{
+	margin-top:40px;
+}
+#register-user-input0{
+	border:0px;
+	border-bottom:3px solid white;
+	background-color:transparent;
+	border-radius: 0px;
+	color:white;
+}
+#register-user-input{
+	border:0px;
+	border-bottom:3px solid white;
+	background-color:transparent;
+	border-radius: 0px;
+	color:white;
+}
+#register-user-input2{
+	border:0px;
+	border-bottom:3px solid white;
+	background-color:transparent;
+	border-radius: 0px;
+	color:white;
+}
+#register-user-input3{
+	border:0px;
+	border-bottom:3px solid white;
+	background-color:transparent;
+	border-radius: 0px;
+	color:white;
+}
+#register-user-input4{
+	border:0px;
+	border-bottom:3px solid white;
+	background-color:transparent;
+	border-radius: 0px;
+	color:white;
+}
+#register-user-input5{
+	border:0px;
+	border-bottom:3px solid white;
+	background-color:transparent;
+	border-radius: 0px;
+	color:white;
+}
+
+.register-btn{
+	float:left;
+	border-radius: 0px;
+	background: rgb(216, 168, 104);
+	border:none;
+
+	&:hover{
+		background: #f2cea5;
+		transition:all 0.3s;
+	};
+}
+.register{
+	float:left;
+	color:white;
+	margin-left:20px;
+	&:hover{
+		cursor:pointer;
+		color: rgb(216, 168, 104);
+		transition: all 0.3s;
+	};
+}
+#register-ds{
+	color:white;
+	text-align:left;
+	font-size:14px;
+	margin-top:40px;
+}
+.register-icon{
+	width:22px;
+	background-color:white;
+	border-radius: 11.5px;
+	margin-left:20px;
+	float:left;
+}
+
+.slide-fade-enter-active {
+  transition: all 1.5s ease;
+}
+.slide-fade-leave-active {
+  transition: all 2s cubic-bezier(1.0, 0.5, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(70px);
+  opacity: 0;
+}
