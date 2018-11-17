@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\UserRequest;
 
@@ -21,7 +21,6 @@ class UsersController extends Controller
             // 返回401
             return $this->response->errorUnauthorized('验证码错误');
         }
-
 
         $user = User::create([
             'name' => $request->name,

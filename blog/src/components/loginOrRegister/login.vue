@@ -79,10 +79,12 @@
 	    },
 	    methods:{
 	    	submitForm(formName) {
+	    		var _this = this;
 		        this.$refs[formName].validate((valid) => {
 		          if (valid) {
-		            axios.post('http://api.blog.com/version',{
-		            	
+		            axios.post('http://api.blog.com/authorizations',{
+		            	username:_this.ruleForm.account,
+		            	password:_this.ruleForm.password,
 		            })
 		            .then(response => {
 		            	console.log(response);

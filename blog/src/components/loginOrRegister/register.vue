@@ -334,8 +334,14 @@
 								verification_code:_this.ruleForm.sms,
 							})
 							.then(response => {
-								alert('注册成功！');
+								
+								this.$notify({
+						          title: '成功',
+						          message: '注册成功，开始您的流域',
+						          type: 'success'
+						        });
 								console.log(response);
+						        _this.register();
 							})
 							.catch(error => {
 								if (error.response.data.status_code == 422) {

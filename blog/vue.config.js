@@ -57,7 +57,7 @@ module.exports = {
     https: false,
     open: true,
     hotOnly: false,
-    proxy: null, // 设置代理
+    proxy:null, // 设置代理
     disableHostCheck: true,
     before: app => {},
   },
@@ -67,4 +67,5 @@ module.exports = {
   pluginOptions: {
   // ...
   }
+  
 }
