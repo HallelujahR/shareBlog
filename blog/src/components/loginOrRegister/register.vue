@@ -184,7 +184,7 @@
 				    		phone:_this.ruleForm.account,
 			            })
 			            .then(response => {
-
+			            	console.log(response);
 			            	//把获取到的图片和key 传递给下一个步骤
 			            	_this.captchas = response.data.captcha_image_content;
 			            	_this.captcha_key = response.data.captcha_key;
@@ -197,7 +197,7 @@
 			            	if (error.response.data.status_code == 429) {
 
 			            		_this.errorphone = '操作次数错过，请稍后再试';
-			            		
+			            		_this.showcaptchas = false;
 
 	    	  				}else if(error.response.data.status_code == 422) {
 			            		_this.errorphone = '电话号已存在';
@@ -223,7 +223,6 @@
 		    reloadYzm() {
 		    	this.isreloadYzm =false;
 		    	setTimeout(()=>{ this.getCap('ruleForm','account'); },500)
-		    	
 		    },
 		    checkYzm(formName, field, event) {
 
