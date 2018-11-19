@@ -180,7 +180,7 @@
 		    		if(valid == ''){
 
 		    			//验证手机获取图片验证码
-				    	axios.post('http://api.blog.com/captchas',{
+				    	axios.post('http://140.143.22.156:81/captchas',{
 				    		phone:_this.ruleForm.account,
 			            })
 			            .then(response => {

@@ -26,6 +26,7 @@ $api->version('v1', [
 
 	$api->group([
 		'middleware' => 'api.throttle',
+		'middleware' => 'cors',
         'limit' => config('api.rate_limits.sign.limit'),
         'expires' => config('api.rate_limits.sign.expires'),
 	],function($api) {
