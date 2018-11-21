@@ -28,7 +28,7 @@
 	    mounted:function(){
 	      var _this = this;
 	      _this.show = true;
-	      // console.log(this.$route.params.status);
+	      if(localStorage.verbState == 'true') this.$router.push({name:'index'})
 	    },
 	    methods:{
 	    	reg() {

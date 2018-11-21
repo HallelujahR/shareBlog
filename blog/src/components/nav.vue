@@ -19,11 +19,15 @@ body{
           </el-input>
         </div>
 
-        <div class="aside-main-text" v-if="status">
+        <div class="aside-main-text" v-if="!verbState">
            <router-link to="/logReg" @click.native="changeColor($event, '0')"> 登录 </router-link> 
             <transition name="slide-fade">
                 <i class="el-icon-caret-left"  v-if="nav.a0" ></i>
             </transition>
+        </div>
+
+        <div class="aside-main-text" v-else>
+            asdf
         </div>
 
          <div class="aside-main-text">
@@ -60,7 +64,7 @@ body{
 </template>
 
 <script>
-
+import { mapState } from 'vuex'
 
     export default {
         data(){
@@ -68,7 +72,6 @@ body{
                 msg:'',
                 status:true,
                 search:'',
-                show:false,
                 nav: {
                     a0:false,
                     a1:false,
@@ -79,6 +82,11 @@ body{
                 test1:'1',
                 test2:'2',
             }
+        },
+        computed:{
+            ...mapState([
+                'verbState'
+            ])
         },
         methods:{
             logstatus:function(logstatus){

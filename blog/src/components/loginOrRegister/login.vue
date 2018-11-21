@@ -38,7 +38,7 @@
 					<el-form-item>
 				    	<el-button class="login-btn" type="primary" @click="submitForm('ruleForm')">立即登录</el-button>
 				    	<div class="register">找回密码</div>
-				    <div class="register" @click="register()" style="margin-left:200px;">还没有账号？立即注册</div>
+				    	<div class="register" @click="register()" style="margin-left:200px;">还没有账号？立即注册</div>
 				    </el-form-item>
 				</div>
 			</el-form>
@@ -48,11 +48,16 @@
 				<img class="login-icon" src="@/assets/qqicon.png" /> 
 				<img class="login-icon" src="@/assets/weibo.png" />
 			</div>
+			<div v-if="verbState">
+				{{verbState}}
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 	export default {
 		data(){
 			return {
@@ -73,9 +78,14 @@
 				}
 			}
 		},
+		computed:{
+			...mapState([
+				'verbState'
+			])
+		},
 	    mounted:function(){
-	      var _this = this;
-	      setTimeout(function(){ _this.show = true} ,200);
+	        var _this = this;
+	        setTimeout(function(){ _this.show = true} ,200);
 	    },
 	    methods:{
 	    	submitForm(formName) {
@@ -87,11 +97,35 @@
 		            	password:_this.ruleForm.password,
 		            })
 		            .then(response => {
-		            	console.log(response);
+				        // console.log(response.data.access_token);
+				        console.log(response);
+
+				        const token = response.data.access_token;
+
+				        //把登录后的token 存储在vuex 中
+				       	this.$store.commit('changeToken',{
+				       		token:token,
+				       		verbState:true,
+
+				       	});
+				       	//使用localStorage 存储登录信息
+						localStorage.setItem('access_token',token);
+						localStorage.setItem('verbState','true');
+
+				       	//登录成功后的提示信息
+		            	this.$message({
+				          message: '登录成功，开始您的流域',
+				          type: 'success'
+				        });
+
+		            	return false;
+
 		            })
 		            .catch(error => {
 		            	console.log(error);
-		            })
+		            	if(error.response.data.status_code == 401) this.$message.error(error.response.data.message);
+		            	
+		            });
 		          } else {
 		            console.log('error submit!!');
 		            return false;

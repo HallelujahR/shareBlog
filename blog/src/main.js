@@ -4,6 +4,9 @@ import router from './router'
 import axios from 'axios'
 import dh from './components/nav.vue'
 
+//引入 vuex store
+import store from './store'
+
 //引入element ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -26,6 +29,7 @@ window.axios = axios;
 Vue.config.productionTip = false
 
 new Vue({
+  store,
   router,
   render: h => h(App)
 }).$mount('#app')

@@ -78,7 +78,10 @@
 						    id="register-user-input5"
 						    >
 
-							<el-button slot="append" @click="regNow('ruleForm','name', 'password', 'sms')">注册</el-button>
+							<el-button slot="append" @click="regNow('ruleForm','name', 'password', 'sms')">
+								<span v-if="isZc">注册</span>
+								<i v-else class="el-icon-loading"></i>
+							</el-button>
 
 						</el-input>
 					</el-form-item>
@@ -136,6 +139,9 @@
 				//验证码刷新等待
 				isreloadYzm:true,
 
+				//注册按钮的显示
+				isZc:true,
+
 				rules:{
 					account: [
 			            { required: true, message: '请输入账号', trigger: 'blur' },
@@ -180,11 +186,11 @@
 		    		if(valid == ''){
 
 		    			//验证手机获取图片验证码
-				    	axios.post('http://140.143.22.156:81/captchas',{
+				    	axios.post('http://api.blog.com/captchas',{
 				    		phone:_this.ruleForm.account,
 			            })
 			            .then(response => {
-			            	console.log(response);
+			            	// console.log(response);
 			            	//把获取到的图片和key 传递给下一个步骤
 			            	_this.captchas = response.data.captcha_image_content;
 			            	_this.captcha_key = response.data.captcha_key;
@@ -236,19 +242,30 @@
 	    	  		if(valid == ''){
 
 	    	  			axios.post('http://api.blog.com/verificationCodes',{
+
 	    	  				captcha_key:_this.captcha_key,
+
 	    	  				captcha_code:_this.ruleForm.yzm,
+
 	    	  			})
 	    	  			.then(response => {
+
 	    	  				var num = 60;
+
 	    	  				var time = setInterval(() => {
+
 	    	  					event.target.innerHTML=num;	
+
 	    	  					num--;
+
 	    	  					if(num == 0) {
+
 									clearInterval(time);
 									_this.issendSms = false;
 									event.target.innerHTML='发送短信';	
+
 	    	  					}
+
 	    	  				} ,1000);
 
 	    	  				_this.issendSms = true;
@@ -297,7 +314,7 @@
 		    },
 		    //提交注册
 		    regNow(formName, field1, field2, field3) {
-		    	console.log(1);
+		    	// console.log(1);
 		    	var _this = this;
 		    	//name
 		    	var name = '';
@@ -306,6 +323,8 @@
 		    	//sms
 		    	var sms = '';
 
+		    	//按钮控制
+		    	this.isZc = false;
 		    	//昵称验证
 		    	this.$refs[formName].validateField(field1,(valid) => {
 		    		name = valid;
@@ -319,39 +338,69 @@
 		    	if(pass == '' && name== ''){
 
 		    		this.$refs[formName].validateField(field3,(valid) => {
-		    			console.log(valid);
+		    			// console.log(valid);
 						if(valid == ''){
-							console.log(_this.smskey);
-							console.log(_this.ruleForm.password);
-							console.log(_this.ruleForm.name);
+							// console.log(_this.smskey);
+							// console.log(_this.ruleForm.password);
+							// console.log(_this.ruleForm.account);
+							// return false;
 							//判断短信验证码是否完成注册
 							axios.post('http://api.blog.com/users',{
+
 								verification_key:_this.smskey,
 								password:_this.ruleForm.password,
 								name:_this.ruleForm.name,
-								phone:_this.ruleForm.phone,
+								phone:_this.ruleForm.account,
 								verification_code:_this.ruleForm.sms,
+
 							})
 							.then(response => {
 								
-								this.$notify({
-						          title: '成功',
-						          message: '注册成功，开始您的流域',
-						          type: 'success'
-						        });
-								console.log(response);
-						        _this.register();
+								 // // console.log(response.data.access_token);
+								 //        console.log(response);
+
+								 //        const token = response.data.access_token;
+
+								 //        //把登录后的token 存储在vuex 中
+								 //       	this.$store.commit('changeToken',{
+
+								 //       		token:token,
+								 //       		verbState:true,
+
+								 //       	});
+
+								 //       	//使用localStorage 存储登录信息
+									// 	localStorage.setItem('access_token',token);
+
+									// 	localStorage.setItem('verbState','true');
+
+								 //       	//登录成功后的提示信息
+						   //          	this.$message({
+								 //          message: '注册成功，开始您的流域',
+								 //           type: 'success'
+								 //        });
+
+						   //          	_this.isZc = true;
+
+						   //          	return false;
+
 							})
 							.catch(error => {
+
 								if (error.response.data.status_code == 422) {
+									
 									_this.errorName = '昵称已存在';
+									
 								}else if(error.response.data.status_code == 401){
+
 									_this.errorSms = '验证码错误';
+
 								}else if(error.response.data.status_code == 423){
+
 									_this.errorSms = '验证码失效，请重新发送';
 									_this.getCap('ruleForm','account');
-								}	
 
+								}	
 
 							})
 

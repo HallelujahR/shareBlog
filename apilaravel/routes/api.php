@@ -30,20 +30,15 @@ $api->version('v1', [
         'limit' => config('api.rate_limits.sign.limit'),
         'expires' => config('api.rate_limits.sign.expires'),
 	],function($api) {
-		// 短信验证码
-		// $api->group([
-		// 	'middleware' => 'api.auth',
-		// ],function($api){
 
-		    $api->post('verificationCodes', 'VerificationCodesController@store')
-		        ->name('api.verificationCodes.store');
-			// 用户注册
-			$api->post('users', 'UsersController@store')
-			    ->name('api.users.store');
-			$api->post('captchas', 'CaptchasController@store')
-				->name('api.catchas.store');
-		// });
-		
+		// 短信验证码
+	    $api->post('verificationCodes', 'VerificationCodesController@store')
+	        ->name('api.verificationCodes.store');
+		// 用户注册
+		$api->post('users', 'UsersController@store')
+		    ->name('api.users.store');
+		$api->post('captchas', 'CaptchasController@store')
+			->name('api.catchas.store');
 		// 登录
 		$api->post('authorizations', 'AuthorizationsController@store')
     	->name('api.authorizations.store');
@@ -53,7 +48,29 @@ $api->version('v1', [
 		// 删除token
 		$api->delete('authorizations/current', 'AuthorizationsController@destroy')
 		    ->name('api.authorizations.destroy');
+
 	});
+
+
+	$api->group([
+		//限制访问次数中间件
+        'middleware' => 'api.throttle',
+        //跨域访问中间件
+        'middleware' => 'cors',
+        //返回数据结构选择 中间件 =》 目前是 array
+        'middleware' => 'serializer:array'
+        'limit' => config('api.rate_limits.access.limit'),
+        'expires' => config('api.rate_limits.access.expires'),
+    ], function ($api) {
+        // 游客可以访问的接口
+
+        // 需要 token 验证的接口
+        $api->group(['middleware' => 'api.auth'], function($api) {
+            // 当前登录用户信息
+            $api->get('user', 'UsersController@me')
+                ->name('api.user.show');
+        });
+    });
 
     
 });

@@ -54,11 +54,21 @@ export default {
   methods:{
 
   },
+  created:function(){
+    //判断登录的状态
+    const verbState = localStorage.getItem('verbState');
+    if(verbState == 'true'){
+      this.$store.commit('changeToken',{
+        verbState:true,
+      })
+    }else{
+      this.$store.commit('changeToken',{
+        verbState:false,
+      })
+    }
+  },
   mounted:function(){
     setTimeout(()=>{    this.show = true; } , 100);
-
-
-
   },
   computed:{
       key(){
