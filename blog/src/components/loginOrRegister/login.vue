@@ -57,6 +57,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 
 	export default {
 		data(){
@@ -81,33 +82,42 @@ import { mapState } from 'vuex'
 		computed:{
 			...mapState([
 				'verbState'
-			])
+			]),
+
 		},
 	    mounted:function(){
-	        var _this = this;
-	        setTimeout(function(){ _this.show = true} ,200);
+	        setTimeout(function(){ this.show = true} ,200);
 	    },
 	    methods:{
+            ...mapMutations({
+                setverbState: 'SET_VERBSTATE',
+                setToken: 'SET_TOKEN',
+            }),
+
 	    	submitForm(formName) {
-	    		var _this = this;
-		        this.$refs[formName].validate((valid) => {
+
+                this.$refs[formName].validate((valid) => {
+
+
 		          if (valid) {
+
+		          	// return fales;
 		            axios.post('http://api.blog.com/authorizations',{
-		            	username:_this.ruleForm.account,
-		            	password:_this.ruleForm.password,
+		            	username:this.ruleForm.account,
+		            	password:this.ruleForm.password,
 		            })
 		            .then(response => {
-				        // console.log(response.data.access_token);
 				        console.log(response);
 
+				        //用户的token
 				        const token = response.data.access_token;
 
+				        // const userDetail = response.data.
 				        //把登录后的token 存储在vuex 中
-				       	this.$store.commit('changeToken',{
-				       		token:token,
-				       		verbState:true,
+                        this.setverbState(true);
+                        this.setToken(token);
 
-				       	});
+				       	
 				       	//使用localStorage 存储登录信息
 						localStorage.setItem('access_token',token);
 						localStorage.setItem('verbState','true');
@@ -118,7 +128,8 @@ import { mapState } from 'vuex'
 				          type: 'success'
 				        });
 
-		            	return false;
+		            	//登录成功跳转到首页
+		            	// this.$router.push({name:'index'})
 
 		            })
 		            .catch(error => {
@@ -137,7 +148,9 @@ import { mapState } from 'vuex'
 		    },
 		    register() {
 		    	this.$emit('reg',true);
-		    }
+		    },
+		    //获取用户数据
+
 	    }
 
 	}

@@ -30,6 +30,8 @@ class AuthorizationsController extends Controller
             'token_type' => 'Bearer',
             'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
         ])->setStatusCode(201);
+
+        
     }
 
     public function update()

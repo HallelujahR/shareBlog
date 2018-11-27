@@ -10,10 +10,13 @@
 <template>
   <div id="index-body">
       <div id="background-img1"></div>
+      <div>{{user}}</div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
     export default {
       data: () => ({
         show: false,
@@ -21,13 +24,21 @@
         percent:0,
         a:null,
       }),
+      computed:{
+        ...mapState([
+          'user'
+        ])
+      },
       created:function(){
         const _this = this;
-       
+       // this.$store.dispatch('setUser');
       },
       mounted:function(){
         var _this = this;
-        _this.show = true
+        _this.show = true;
+      },
+      methods: {
+
       }
   }
 </script>

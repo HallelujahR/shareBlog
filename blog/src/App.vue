@@ -42,41 +42,51 @@
 </template>
 
 <script>
-export default {
+    import { mapMutations } from 'vuex'
 
-  data () {
-    return {
-      qwer:1,
-      msg:'as',
-      show:false,
+    export default {
+
+        data () {
+            return {
+              qwer:1,
+              msg:'as',
+              show:false,
+            }
+        },
+        computed:{
+            key(){
+                return this.$route.path + Math.random();
+            }
+        },
+        methods:{
+            ...mapMutations({
+                setverbState: 'SET_VERBSTATE',
+                setToken: 'SET_TOKEN',
+            }),
+        },
+        created:function(){
+            //判断登录的状态
+            const verbState = localStorage.getItem('verbState');
+            console.log(verbState);
+            if(verbState == 'true'){
+                this.setverbState(true);
+
+
+              // this.$store.dispatch('getUser');
+
+            }else{
+                this.setverbState(false);
+                this.setToken('');
+            }
+        },
+        mounted:function(){
+
+            setTimeout(()=>{    this.show = true; } , 100);
+
+        },
+
+
     }
-  },
-  methods:{
-
-  },
-  created:function(){
-    //判断登录的状态
-    const verbState = localStorage.getItem('verbState');
-    if(verbState == 'true'){
-      this.$store.commit('changeToken',{
-        verbState:true,
-      })
-    }else{
-      this.$store.commit('changeToken',{
-        verbState:false,
-      })
-    }
-  },
-  mounted:function(){
-    setTimeout(()=>{    this.show = true; } , 100);
-  },
-  computed:{
-      key(){
-          return this.$route.path + Math.random();
-      }
-  }
-
-}
 </script>
 <style>
 #app {

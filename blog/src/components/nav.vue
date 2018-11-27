@@ -26,8 +26,12 @@ body{
             </transition>
         </div>
 
-        <div class="aside-main-text" v-else>
-            asdf
+        <div class="aside-main-text" style="border:1px solid blue" v-else>
+            <div id="user">
+                
+                <img src="../assets/defaultHead.png" width="60px;">
+                <span><a href="">{{user}}</a></span>
+            </div>
         </div>
 
          <div class="aside-main-text">
@@ -79,13 +83,12 @@ import { mapState } from 'vuex'
                     a3:false,
                     a4:false,
                 },
-                test1:'1',
-                test2:'2',
             }
         },
         computed:{
             ...mapState([
-                'verbState'
+                'verbState',
+                'user',
             ])
         },
         methods:{

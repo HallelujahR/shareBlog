@@ -24,6 +24,13 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
+  'liyu/dingo-serializer-switch' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Liyu\\Dingo\\ServiceProvider',
+    ),
+  ),
   'nesbot/carbon' => 
   array (
     'providers' => 

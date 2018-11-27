@@ -41,6 +41,7 @@ return array(
     'Namshi\\JOSE\\' => array($vendorDir . '/namshi/jose/src/Namshi/JOSE'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Models\\' => array($baseDir . '/app/Models'),
+    'Liyu\\Dingo\\' => array($vendorDir . '/liyu/dingo-serializer-switch/src'),
     'League\\Fractal\\' => array($vendorDir . '/league/fractal/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'Lcobucci\\JWT\\' => array($vendorDir . '/lcobucci/jwt/src'),

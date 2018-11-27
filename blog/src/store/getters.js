@@ -1,0 +1,1 @@
+export const verbState = state => state.verbState

@@ -91,6 +91,7 @@ class ComposerStaticInit9988e3684bdf8fa5d43c7e4ec5816696
         ),
         'L' => 
         array (
+            'Liyu\\Dingo\\' => 11,
             'League\\Fractal\\' => 15,
             'League\\Flysystem\\' => 17,
             'Lcobucci\\JWT\\' => 13,
@@ -285,6 +286,10 @@ class ComposerStaticInit9988e3684bdf8fa5d43c7e4ec5816696
         'Models\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Models',
+        ),
+        'Liyu\\Dingo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/liyu/dingo-serializer-switch/src',
         ),
         'League\\Fractal\\' => 
         array (
@@ -2445,6 +2450,10 @@ class ComposerStaticInit9988e3684bdf8fa5d43c7e4ec5816696
         'League\\Fractal\\Serializer\\Serializer' => __DIR__ . '/..' . '/league/fractal/src/Serializer/Serializer.php',
         'League\\Fractal\\Serializer\\SerializerAbstract' => __DIR__ . '/..' . '/league/fractal/src/Serializer/SerializerAbstract.php',
         'League\\Fractal\\TransformerAbstract' => __DIR__ . '/..' . '/league/fractal/src/TransformerAbstract.php',
+        'Liyu\\Dingo\\SerializerSwitch' => __DIR__ . '/..' . '/liyu/dingo-serializer-switch/src/SerializerSwitch.php',
+        'Liyu\\Dingo\\Serializers\\ArraySerializer' => __DIR__ . '/..' . '/liyu/dingo-serializer-switch/src/Serializers/ArraySerializer.php',
+        'Liyu\\Dingo\\Serializers\\DataArraySerializer' => __DIR__ . '/..' . '/liyu/dingo-serializer-switch/src/Serializers/DataArraySerializer.php',
+        'Liyu\\Dingo\\ServiceProvider' => __DIR__ . '/..' . '/liyu/dingo-serializer-switch/src/ServiceProvider.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\Legacy\\TestListenerForV5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/Legacy/TestListenerForV5.php',
         'Mockery\\Adapter\\Phpunit\\Legacy\\TestListenerForV6' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/Legacy/TestListenerForV6.php',

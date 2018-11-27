@@ -36,7 +36,6 @@ $font-color:#d8a868;
 	line-height: 100px;
 	font-size:16px;
 	position:relative;
-
 }
 .el-icon-caret-left{
 	position:absolute;
@@ -54,4 +53,11 @@ $font-color:#d8a868;
 /* .slide-fade-leave-active for below version 2.1.8 */ {
   transform: translateX(10px);
   opacity: 0;
+}
+
+#user{
+	border:1px solid red;
+	text-align: right;
+	line-height: 100px;
+	height:100%;
 }

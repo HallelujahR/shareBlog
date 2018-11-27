@@ -58,7 +58,7 @@ $api->version('v1', [
         //跨域访问中间件
         'middleware' => 'cors',
         //返回数据结构选择 中间件 =》 目前是 array
-        'middleware' => 'serializer:array'
+        'middleware' => 'serializer:array',
         'limit' => config('api.rate_limits.access.limit'),
         'expires' => config('api.rate_limits.access.expires'),
     ], function ($api) {
