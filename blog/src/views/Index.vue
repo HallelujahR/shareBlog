@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
     export default {
       data: () => ({
@@ -27,11 +27,14 @@ import { mapState } from 'vuex'
       computed:{
         ...mapState([
           'user'
-        ])
+        ]),
+        ...mapActions([
+           'setUser',
+        ]),
       },
       created:function(){
         const _this = this;
-       // this.$store.dispatch('setUser');
+
       },
       mounted:function(){
         var _this = this;

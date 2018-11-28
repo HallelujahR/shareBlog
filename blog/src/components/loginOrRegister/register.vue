@@ -101,9 +101,9 @@
 		</div>
 	</div>
 </template>
-
+select sum(pay),(select u.pay where finance_month='2018-09')  from userinfos as u where uid=1062853110 and finance_month='2018-10';
 <script>
-	import { mapMutations } from 'vuex'
+	import { mapMutations, mapActions } from 'vuex'
 
 	export default {
 		data(){
@@ -173,6 +173,11 @@
 
 	      setTimeout(function(){ this.show = true} ,200);
 	    },
+		computed:{
+			...mapActions([
+                'setUser',
+			]),
+		},
 	    methods:{
 			...mapMutations({
                 setverbState: 'SET_VERBSTATE',
@@ -186,45 +191,44 @@
 
 		    	//验证手机号是否正确进行下一步
 				this.errorphone = '';
+
 		    	//使用了element ui 的form组件 个别字段验证  验证手机号
 	    	  	this.$refs[formName].validateField(field,(valid) => {
 
-		    		if(valid == ''){
+		    		if(valid === ''){
 
-		    			//验证手机获取图片验证码
-				    	axios.post('http://api.blog.com/captchas',{
-				    		phone:this.ruleForm.account,
-			            })
-			            .then(response => {
-			            	// console.log(response);
-			            	//把获取到的图片和key 传递给下一个步骤
-			            	this.captchas = response.data.captcha_image_content;
-			            	this.captcha_key = response.data.captcha_key;
-			            	this.showcaptchas = true;
-			            	this.isdis = true;
+                        //验证手机获取图片验证码
+						let paramObj = {
+						  phone:this.ruleForm.account,
+						};
 
-			            	this.isreloadYzm = true;
-			            })	
-			            .catch(error => {
-			            	if (error.response.data.status_code == 429) {
+                        this.$server.getCaptchas(paramObj).then(data => {
 
-			            		this.errorphone = '操作次数错过，请稍后再试';
-			            		this.showcaptchas = false;
+                            //把获取到的图片和key 传递给下一个步骤
+                            this.captchas = data.captcha_image_content;
+                            this.captcha_key = data.captcha_key;
+                            this.showcaptchas = true;
+                            this.isdis = true;
+                            this.isreloadYzm = true;
 
-	    	  				}else if(error.response.data.status_code == 422) {
-			            		this.errorphone = '电话号已存在';
+						}).catch(err => {
 
-	    	  				}
-			            });
+                            if(err.status === 422) {
+                                this.errorphone = '电话号已存在';
+                                return false;
+                            }
 
-		    			return false;
+                            if(err.status === 429) {
+                                this.errorphone = '操作次数错过，请稍后再试';
+                                this.showcaptchas = false;
+                                return false;
+                            }
+						})
+
 
 		    		}
 
-		    		return false;
-
 		    	})
-
 		    },
 		    //监听用户是否改变手机号 重新获取验证码
 		    oninput() {
@@ -244,76 +248,67 @@
 		    	//使用了element ui 的form组件 个别字段验证 验证 验证码
 	    	  	this.$refs[formName].validateField(field,(valid) => {
 
-	    	  		if(valid == ''){
+	    	  		if(valid === ''){
 
-	    	  			axios.post('http://api.blog.com/verificationCodes',{
+	    	  		    let paramObj = {
 
-	    	  				captcha_key:this.captcha_key,
+                            captcha_key:this.captcha_key,
+                            captcha_code:this.ruleForm.yzm,
 
-	    	  				captcha_code:this.ruleForm.yzm,
+						};
 
-	    	  			})
-	    	  			.then(response => {
+	    	  		    this.$server.checkYzm(paramObj).then(data => {
+                            let num = 60;
 
-	    	  				var num = 60;
+                            const time = setInterval(() => {
 
-	    	  				var time = setInterval(() => {
+                                event.target.innerHTML=num;
 
-	    	  					event.target.innerHTML=num;	
+                                num--;
 
-	    	  					num--;
+                                if(num === 0) {
 
-	    	  					if(num == 0) {
+                                    clearInterval(time);
+                                    this.issendSms = false;
+                                    event.target.innerHTML='发送短信';
 
-									clearInterval(time);
-									this.issendSms = false;
-									event.target.innerHTML='发送短信';	
+                                }
 
-	    	  					}
+                            } ,1000);
 
-	    	  				} ,1000);
+                            this.issendSms = true;
 
-	    	  				this.issendSms = true;
+                            //存入验证短信验证码的key
+                            this.smskey = data.key;
 
-	    	  				//存入验证短信验证码的key
-	    	  				this.smskey = response.data.key;
+                            //显示密码 昵称等输入框
+                            this.showSms = true;
 
-	    	  				//显示密码 昵称等输入框
-	    	  				this.showSms = true;
+                        }).catch(err => {
+                            if (err.status === 401) {
 
+                                this.getCap('ruleForm', 'yzm');
+                                this.errorMsg = err.message;
+                                return false;
 
-	    	  				
+                            }else if(err.status === 429) {
 
-	    	  			})
-	    	  			.catch(error => {
+                                this.errorMsg = '操作次数过多，请稍后再试';
+                                //让输入验证码input 消失
+                                this.isdis = false;
+                                this.showcaptchas = false;
+                                this.ruleForm.yzm = '';
+                                return false;
 
-	    	  				if (error.response.data.status_code == 401) {
+                            }else if(err.status === 422) {
 
-	    	  					this.getCap('ruleForm', 'yzm');
-			            		this.errorMsg = error.response.data.message;
+                                this.errorMsg = '图片验证码已失效,点就图片重新获取';
+                                return false;
 
-	    	  				}else if(error.response.data.status_code == 429) {
-
-	    	  					this.errorMsg = '操作次数过多，请稍后再试';
-	    	  					//让输入验证码input 消失
-	    	  					this.isdis = false;
-						    	this.showcaptchas = false;
-						    	this.ruleForm.yzm = '';
-
-	    	  				}else if(error.response.data.status_code == 422) {
-
-	    	  					this.errorMsg = '图片验证码已失效,点就图片重新获取';
-	    	  					
-
-	    	  				}
-	    	  				
-	    	  			})
-
-	    	  			return false;
+                            }
+						});
 
 	    	  		}
-
-	    	  		return false;
 
 	    	  	})
 		    },
@@ -321,11 +316,11 @@
 		    regNow(formName, field1, field2, field3) {
 		    	// console.log(1);
 		    	//name
-		    	var name = '';
+		    	let name = '';
 		    	//pass
-		    	var pass = '';
+		    	let pass = '';
 		    	//sms
-		    	var sms = '';
+		    	let sms = '';
 
 		    	//按钮控制
 		    	this.isZc = false;
@@ -339,76 +334,73 @@
 		    	});
 
 		    	//短信验证码验证
-		    	if(pass == '' && name== ''){
+		    	if(pass === '' && name === ''){
 
 		    		this.$refs[formName].validateField(field3,(valid) => {
-		    			// console.log(valid);
-						if(valid == ''){
-							// console.log(this.smskey);
-							// console.log(this.ruleForm.password);
-							// console.log(this.ruleForm.account);
-							// return false;
+
+						if(valid === ''){
+
 							//判断短信验证码是否完成注册
-							axios.post('http://api.blog.com/users',{
+							let paramObj = {
+                                verification_key:this.smskey,
+                                password:this.ruleForm.password,
+                                name:this.ruleForm.name,
+                                phone:this.ruleForm.account,
+                                verification_code:this.ruleForm.sms,
 
-								verification_key:this.smskey,
-								password:this.ruleForm.password,
-								name:this.ruleForm.name,
-								phone:this.ruleForm.account,
-								verification_code:this.ruleForm.sms,
+                            };
 
-							})
-							.then(response => {
-								
-							        // console.log(response);
+							this.$server.regNow(paramObj).then(data => {
 
-							        const token = response.data.meta.access_token;
+                                const token = data.meta.access_token;
 
-							        //把注册后的token 存储在vuex 中
-									this.setverbState(true);
-									this.setToken(token);
+                                //把注册后的token 存储在vuex 中 还有登录状态
+                                this.setverbState(true);
+                                this.setToken(token);
+                                //获取user基本信息
+                                this.setUser;
 
-							     	//使用localStorage 存储登录信息
-									localStorage.setItem('access_token',token);
+                                //使用localStorage 存储登录信息
+                                localStorage.setItem('access_token',token);
 
-									localStorage.setItem('verbState','true');
+                                localStorage.setItem('verbState','true');
 
-							       	//登录成功后的提示信息
-					            	this.$message({
-							          message: '注册成功，开始您的流域',
-							           type: 'success'
-							        });
+                                //登录成功后的提示信息
+                                this.$message({
+                                    message: '注册成功，开始您的流域',
+                                    type: 'success'
+                                });
 
-					            	//判断按钮状态
-					            	this.isZc = true;
+                                //判断按钮状态
+                                this.isZc = true;
 
-					            	//跳转到主页
-					            	this.$router.push({name:'index'})
-					            	return false;
+                                //跳转到主页
+                                this.$router.push({name:'index'})
 
-							})
-							.catch(error => {
+							}).catch(err => {
 
-								if (error.response.data.status_code == 422) {
-									
-									this.errorName = '昵称已存在';
-									
-								}else if(error.response.data.status_code == 401){
+                                if (err.status === 422) {
 
-									this.errorSms = '验证码错误';
+                                    this.errorName = '昵称已存在';
+                                    return false;
 
-								}else if(error.response.data.status_code == 423){
+                                }else if(err.status === 401){
 
-									this.errorSms = '验证码失效，请重新发送';
-									this.getCap('ruleForm','account');
+                                    this.errorSms = '验证码错误';
+                                    return false;
 
-								}	
+                                }else if(err.status === 423){
 
-							})
+                                    this.errorSms = '验证码失效，请重新发送';
+                                    this.getCap('ruleForm','account');
+                                    return false;
+
+                                }
+
+                            });
 
 			    		}
 
-			    		return false;
 		    		});
 		    	}
 

@@ -26,8 +26,7 @@
 			}
 		},
 	    mounted:function(){
-	      var _this = this;
-	      _this.show = true;
+	      this.show = true;
 	      if(localStorage.verbState == 'true') this.$router.push({name:'index'})
 	    },
 	    methods:{

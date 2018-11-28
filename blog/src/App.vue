@@ -42,7 +42,7 @@
 </template>
 
 <script>
-    import { mapMutations } from 'vuex'
+    import { mapMutations, mapActions } from 'vuex'
 
     export default {
 
@@ -63,16 +63,21 @@
                 setverbState: 'SET_VERBSTATE',
                 setToken: 'SET_TOKEN',
             }),
+            ...mapActions([
+                'setUser',
+            ])
         },
         created:function(){
+
             //判断登录的状态
             const verbState = localStorage.getItem('verbState');
-            console.log(verbState);
-            if(verbState == 'true'){
+            const token = localStorage.getItem('access_token');
+
+            if(verbState === 'true'){
+
                 this.setverbState(true);
-
-
-              // this.$store.dispatch('getUser');
+                this.setToken(token);
+                this.setUser();
 
             }else{
                 this.setverbState(false);

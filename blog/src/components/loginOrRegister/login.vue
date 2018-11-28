@@ -56,32 +56,34 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 	export default {
-		data(){
-			return {
-				show:false,
-				ruleForm:{
-					account:'',
-					password:'',
-				},
-				rules:{
-					account: [
-			            { required: true, message: '请输入账号', trigger: 'blur' },
-			            { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
-          			],
-          			password: [
-          				{ required: true, message: '请输入密码', trigger: 'blur' },
-			            { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
-          			],
-				}
-			}
-		},
+        data: function () {
+            return {
+                show: false,
+                ruleForm: {
+                    account: '',
+                    password: '',
+                },
+                rules: {
+                    account: [
+                        {required: true, message: '请输入账号', trigger: 'blur'},
+                        {min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur'}
+                    ],
+                    password: [
+                        {required: true, message: '请输入密码', trigger: 'blur'},
+                        {min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur'}
+                    ],
+                }
+            }
+        },
 		computed:{
 			...mapState([
-				'verbState'
+				"verbState"
+			]),
+			...mapActions([
+				"setUser",
 			]),
 
 		},
@@ -94,58 +96,54 @@ import { mapMutations } from 'vuex'
                 setToken: 'SET_TOKEN',
             }),
 
-	    	submitForm(formName) {
+            submitForm: function (formName) {
 
                 this.$refs[formName].validate((valid) => {
 
 
-		          if (valid) {
+                    if (valid) {
 
-		          	// return fales;
-		            axios.post('http://api.blog.com/authorizations',{
-		            	username:this.ruleForm.account,
-		            	password:this.ruleForm.password,
-		            })
-		            .then(response => {
-				        console.log(response);
+                        let paramObj = {
+                            username: this.ruleForm.account,
+                            password: this.ruleForm.password,
+                        };
+                        console.log(this.$server);
+                        this.$server.login(paramObj).then(data => {
 
-				        //用户的token
-				        const token = response.data.access_token;
+                            //用户的token
+                            const token = data.access_token;
 
-				        // const userDetail = response.data.
-				        //把登录后的token 存储在vuex 中
-                        this.setverbState(true);
-                        this.setToken(token);
+                            //使用localStorage 存储登录信息
+                            localStorage.setItem('access_token', token);
+                            localStorage.setItem('verbState', 'true');
 
-				       	
-				       	//使用localStorage 存储登录信息
-						localStorage.setItem('access_token',token);
-						localStorage.setItem('verbState','true');
+                            //把登录后的token 存储在vuex 中
+                            this.setverbState(true);
+                            this.setToken(token);
 
-				       	//登录成功后的提示信息
-		            	this.$message({
-				          message: '登录成功，开始您的流域',
-				          type: 'success'
-				        });
+                            //获取用户信息
+                            this.setUser;
 
-		            	//登录成功跳转到首页
-		            	// this.$router.push({name:'index'})
+                            //登录成功后的提示信息
+                            this.$message({
+                                message: '登录成功，开始您的流域',
+                                type: 'success'
+                            });
 
-		            })
-		            .catch(error => {
-		            	console.log(error);
-		            	if(error.response.data.status_code == 401) this.$message.error(error.response.data.message);
-		            	
-		            });
-		          } else {
-		            console.log('error submit!!');
-		            return false;
-		          }
-		        });
-		      },
-		    resetForm(formName) {
-		        this.$refs[formName].resetFields();
-		    },
+                            //登录成功跳转到首页
+                            this.$router.push({name: 'index'})
+
+                        })
+
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm: function (formName) {
+                this.$refs[formName].resetFields();
+            },
 		    register() {
 		    	this.$emit('reg',true);
 		    },

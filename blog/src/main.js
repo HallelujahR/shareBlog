@@ -1,31 +1,27 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import axios from 'axios'
+// import axios from 'axios'
+import store from './store' //引入 vuex store
+import ElementUI from 'element-ui';//引入element ui
+import 'element-ui/lib/theme-chalk/index.css';
+import {server} from './providers/http-service'//引入二次封装的axios
 import dh from './components/nav.vue'
 
-//引入 vuex store
-import store from './store'
-
-//引入element ui
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+// window.axios = axios;
+Vue.component('dh',dh);
+Vue.prototype.$server=server;//定义全局变量axios
 Vue.use(ElementUI);
 
-Vue.component('dh',dh);
-
-//注册登录组件
-import login from './components/loginOrRegister/login.vue'
+import login from './components/loginOrRegister/login.vue' //注册登录组件
 Vue.component('login',login);
-//注册注册组件
-import register from './components/loginOrRegister/register.vue'
+
+import register from './components/loginOrRegister/register.vue' //注册注册组件
 Vue.component('register',register);
 
-//注册包含登录和注册总组件
-import logReg from './components/loginOrRegister/logReg.vue';
+import logReg from './components/loginOrRegister/logReg.vue'; //注册包含登录和注册总组件
 Vue.component('logReg',logReg);
 
-window.axios = axios;
 Vue.config.productionTip = false
 
 new Vue({
