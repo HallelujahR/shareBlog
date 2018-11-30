@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use Auth;
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Requests\Api\AuthorizationRequest;
-use App\Http\Requests\Api\UserRequest;
-
+use App\Http\Requests\Api\SocialAuthorizationRequest;
 
 class AuthorizationsController extends Controller
 {
@@ -25,7 +25,7 @@ class AuthorizationsController extends Controller
         if (!$token = \Auth::guard('api')->attempt($credentials)) {
             return $this->response->errorUnauthorized('用户名或密码错误');
         }
-
+        
         return $this->response->array([
             'access_token' => $token,
             'token_type' => 'Bearer',
@@ -37,9 +37,19 @@ class AuthorizationsController extends Controller
 
     public function update()
 	{
+
 	    $token = \Auth::guard('api')->refresh();
-	    return $this->response->respondWithToken($token);
+	    return $this->respondWithToken($token);
 	}
+
+    protected function respondWithToken($token)
+    {
+        return $this->response->array([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+        ]);
+    }
 
 	public function destroy()
 	{

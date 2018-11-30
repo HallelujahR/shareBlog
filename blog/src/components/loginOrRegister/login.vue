@@ -11,7 +11,7 @@
 
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
 				<div class="login-user">
-					<el-form-item prop="account">
+					<el-form-item prop="account" :error="errorMsg" >
 						<el-input
 						    placeholder="输入账号"
 						    suffix-icon="el-icon-phone"
@@ -66,6 +66,7 @@ import { mapState, mapMutations, mapActions } from 'vuex'
                     account: '',
                     password: '',
                 },
+                errorMsg:'',
                 rules: {
                     account: [
                         {required: true, message: '请输入账号', trigger: 'blur'},
@@ -89,6 +90,13 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 		},
 	    mounted:function(){
 	        setTimeout(function(){ this.show = true} ,200);
+			if(localStorage.relogin == 'true'){
+                this.$message({
+                    message: '登录过期，请重新登录',
+                    type: 'warning'
+                });
+                localStorage.removeItem('relogin')
+			}
 	    },
 	    methods:{
             ...mapMutations({
@@ -97,7 +105,7 @@ import { mapState, mapMutations, mapActions } from 'vuex'
             }),
 
             submitForm: function (formName) {
-
+				this.errorMsg = '';
                 this.$refs[formName].validate((valid) => {
 
 
@@ -107,9 +115,9 @@ import { mapState, mapMutations, mapActions } from 'vuex'
                             username: this.ruleForm.account,
                             password: this.ruleForm.password,
                         };
-                        console.log(this.$server);
+                        // console.log(this.$server);
                         this.$server.login(paramObj).then(data => {
-
+							// console.log(data);
                             //用户的token
                             const token = data.access_token;
 
@@ -134,6 +142,15 @@ import { mapState, mapMutations, mapActions } from 'vuex'
                             this.$router.push({name: 'index'})
 
                         })
+						.catch(err => {
+
+                            if (err.status === 401) {
+
+                                this.errorMsg = '用户或密码错误';
+                                return false;
+
+                            }
+						})
 
                     } else {
                         console.log('error submit!!');

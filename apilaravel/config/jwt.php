@@ -10,7 +10,7 @@
  */
 
 return [
-
+    //黑名单宽限时间
     /*
     |--------------------------------------------------------------------------
     | JWT Authentication Secret
@@ -100,7 +100,7 @@ return [
     |
     */
 
-    'ttl' => env('JWT_TTL', 600),
+    'ttl' => env('JWT_TTL', 1),
 
     /*
     |--------------------------------------------------------------------------
@@ -234,7 +234,7 @@ return [
     |
     */
 
-    'blacklist_grace_period' => env('JWT_BLACKLIST_GRACE_PERIOD', 0),
+    'blacklist_grace_period' => env('JWT_BLACKLIST_GRACE_PERIOD', 60),
 
     /*
     |--------------------------------------------------------------------------

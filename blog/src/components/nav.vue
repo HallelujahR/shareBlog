@@ -30,7 +30,7 @@ body{
             <div id="user">
                 
                 <img src="../assets/defaultHead.png" width="60px;">
-                <span><a href="">{{user}}</a></span>
+                <span><a href="">{{user.name}}</a></span>
             </div>
         </div>
 
@@ -68,7 +68,7 @@ body{
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, } from 'vuex'
 
     export default {
         data(){
@@ -89,13 +89,18 @@ import { mapState } from 'vuex'
             ...mapState([
                 'verbState',
                 'user',
-            ])
+            ]),
+
+        },
+        mounted:function(){
+
         },
         methods:{
             logstatus:function(logstatus){
                 this.status = logstatus;
             },
             changeColor:function(e, num){
+                console.log(this.$route.path);
                 switch(num){
 
                     case '0':
