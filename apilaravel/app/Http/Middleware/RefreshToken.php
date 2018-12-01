@@ -21,6 +21,7 @@ class RefreshToken extends BaseMiddleware
      * @throws \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
      *
      * @return mixed
+     * @throws JWTException
      */
     public function handle($request, Closure $next)
     {

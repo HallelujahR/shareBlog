@@ -1,9 +1,7 @@
 <style type="scoped" lang="scss">
 
   #app-son{
-    width:1300px;
-    margin:0 auto;
-    background-color: rgba(15,26,29,0.7);
+    background-color: rgba(15,26,29,0.6);
     width:100%;
     height:100%;
     margin:0;
@@ -13,32 +11,51 @@
     z-index:-1;
   }
   .app-main{
-    width:1400px;
+    width:100%;
     margin:0 auto;
   }
-
+  #aside-main{
+    left:0px;
+  }
+  #app-header{
+    padding-left:0px;margin-top:52px;
+  }
+  .el-aside{
+    border:1px sold red;
+    float:left;
+    left:0px;
+    width:300px;
+    height:200px;
+  }
 </style>
 <template>
-<div id="app">
-  <div id="app-son">
-  </div>
-
-  <transition name="el-fade-in">
-
-    <div v-show="show" class="transition-box app-main">
-      <el-container >
-        <el-aside>
-          <dh></dh>
-        </el-aside>
-        <el-main id="main"  >
-          <router-view :key="key"></router-view>
-        </el-main>
-      </el-container>
+  <div id="app">
+    <div id="app-son">
     </div>
 
-  </transition>
+    <transition name="el-fade-in">
 
-</div>
+      <div v-show="show" class="transition-box app-main">
+        <el-container >
+          <el-aside>
+            <dh></dh>
+          </el-aside>
+
+          <el-container>
+            <el-header id="app-header">
+              <state-board></state-board>
+            </el-header>
+
+            <el-main id="main"  style="margin-top:40px;border:1px solid red">
+              <router-view :key="key"></router-view>
+            </el-main>
+          </el-container>
+        </el-container>
+      </div>
+
+    </transition>
+
+  </div>
 </template>
 
 <script>
@@ -48,10 +65,14 @@
 
         data () {
             return {
-              qwer:1,
-              msg:'as',
-              show:false,
+                qwer:1,
+                msg:'as',
+                show:false,
             }
+        },
+        components:{
+            'state-board': () => import('./components/loginOrRegister/stateBoard'),//引入上方导航栏组件
+            'dh': () => import ('./components/nav.vue'),//引入左侧导航组件
         },
         computed:{
             key(){
@@ -65,7 +86,7 @@
             }),
             ...mapActions([
                 'setUser',
-            ])
+            ]),
         },
         created:function(){
 
@@ -94,11 +115,11 @@
     }
 </script>
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
 </style>

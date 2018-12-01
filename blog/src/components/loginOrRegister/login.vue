@@ -1,5 +1,5 @@
 <style type="scoped" lang="scss">
-@import '@/assets/css/login.scss';
+@import '../../assets/css/login.scss';
 </style>
 
 <template>
@@ -8,7 +8,6 @@
 			<div id="login-title">
 				登录流域
 			</div>
-
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
 				<div class="login-user">
 					<el-form-item prop="account" :error="errorMsg" >
@@ -45,8 +44,8 @@
 
 			<div id="login-ds">
 				<span style="float:left">第三方登录:</span>
-				<img class="login-icon" src="@/assets/qqicon.png" /> 
-				<img class="login-icon" src="@/assets/weibo.png" />
+				<img class="login-icon" src="../../assets/qqicon.png" />
+				<img class="login-icon" src="../../assets/weibo.png" />
 			</div>
 			<div v-if="verbState">
 				{{verbState}}
@@ -90,7 +89,7 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 		},
 	    mounted:function(){
 	        setTimeout(function(){ this.show = true} ,200);
-			if(localStorage.relogin == 'true'){
+			if(localStorage.relogin === 'true'){
                 this.$message({
                     message: '登录过期，请重新登录',
                     type: 'warning'

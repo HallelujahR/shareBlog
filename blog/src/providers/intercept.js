@@ -4,11 +4,6 @@ import router from '../router'
 import store from '../store'
 import {SET_VERBSTATE} from "../store/mutation-types";
 
-import Vue from 'vue'
-import ElementUI from 'element-ui';//引入element ui
-import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
-
 axios.defaults.timeout = 5000;
 axios.defaults.baseURL ='http://api.blog.com'; //填写域名
 
@@ -42,6 +37,7 @@ axios.interceptors.request.use(
     },
     error => {
         return Promise.reject(err);
+
     }
 );
 
@@ -114,6 +110,5 @@ axios.interceptors.response.use(response => {
         console.log('连接到服务器失败')
     }
     return Promise.reject(err.response);
-    // return Promise.resolve()
 });
 

@@ -1,5 +1,5 @@
  <style type="scoped" lang="scss">
-@import '@/assets/css/logReg.scss'
+@import '../../assets/css/logReg.scss';
 </style>
 
 <template>
@@ -18,21 +18,25 @@
 
 <script>
 	export default {
-		
+
 		data(){
 			return {
 				show:false,
 				show1:true,
 			}
 		},
+		components:{
+			'login':() => import('../../components/loginOrRegister/login.vue'),//登录组件
+			'register':() => import('../../components/loginOrRegister/register.vue'),//注册组件
+		},
 	    mounted:function(){
 	      this.show = true;
-	      if(localStorage.verbState == 'true') this.$router.push({name:'index'})
+	      if(localStorage.verbState === 'true') this.$router.push({name:'index'})
 	    },
 	    methods:{
 	    	reg() {
 	    		this.show1 = false;
-	    	},	    	
+	    	},
 	    	log() {
 	    		this.show1 = true;
 	    	}

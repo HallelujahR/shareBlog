@@ -1,5 +1,5 @@
 <style type="scoped" lang="scss">
-@import '@/assets/css/register.scss';
+@import '../../assets/css/register.scss';
 </style>
 
 <template>
@@ -93,8 +93,8 @@
 
 			<div id="register-ds">
 				<span style="float:left">第三方登录:</span>
-				<img class="register-icon" src="@/assets/qqicon.png" /> 
-				<img class="register-icon" src="@/assets/weibo.png" />
+				<img class="register-icon" src="../../assets/qqicon.png" />
+				<img class="register-icon" src="../../assets/weibo.png" />
 
 				<div class="register"  @click="register()" style="margin-left:200px;">已有账号？立即账号</div>
 			</div>
@@ -165,7 +165,7 @@ select sum(pay),(select u.pay where finance_month='2018-09')  from userinfos as 
           				// {pattern:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/, message:"请输入密码，不可以全是字母或数字,且长度在8位以上",trigger:'blur'},
           				{min:6, max:20, message:'长度在 6 到 20 个字符',trigger:'blur'}
           			],
-          			
+
 				}
 			}
 		},

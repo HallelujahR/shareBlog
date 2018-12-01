@@ -56,8 +56,21 @@ $font-color:#d8a868;
 }
 
 #user{
-	border:1px solid red;
 	text-align: right;
 	line-height: 100px;
-	height:100%;
+	height:100px;
+}
+.headImg{
+	margin-top:20px;
+	margin-right:-15px;
+}
+.userName{
+	height:100px;
+	width:200px;
+	word-wrap : break-word ;
+	line-height:100px;
+	float:left;
+	text-align:right;
+	font-size:20px;
+	font-weight:bold;
 }

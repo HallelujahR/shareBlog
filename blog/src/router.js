@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import test from './components/test.vue'
-
-//引入网页上方导航栏
-import nav from './components/nav.vue'
 
 //注册路由
 Vue.use(Router)
@@ -16,12 +12,14 @@ export default new Router({
       component: () => import('./views/Index.vue')
     },
     {
+      path: '/user',
+      name: 'user',
+      component: () => import('./components/User/index.vue'),
+    },
+    {
       path: '/article',
       name: 'article',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('./views/Article.vue')
+      component: () => import('./views/Article.vue'),
     },
     {
       path:'/photo',

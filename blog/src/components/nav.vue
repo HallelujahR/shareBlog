@@ -2,8 +2,8 @@
  <style scoped lang="scss">
 @import '../assets/css/nav.scss';
 body{
-    margin:0px;
-    padding:0px;
+    margin:0;
+    padding:0;
 }
 
 </style>
@@ -22,43 +22,44 @@ body{
         <div class="aside-main-text" v-if="!verbState">
            <router-link to="/logReg" @click.native="changeColor($event, '0')"> 登录 </router-link> 
             <transition name="slide-fade">
-                <i class="el-icon-caret-left"  v-if="nav.a0" ></i>
+                <i class="el-icon-caret-left"  v-if="route === '/logReg'" ></i>
             </transition>
         </div>
 
-        <div class="aside-main-text" style="border:1px solid blue" v-else>
+        <div class="aside-main-text" v-else>
             <div id="user">
-                
-                <img src="../assets/defaultHead.png" width="60px;">
-                <span><a href="">{{user.name}}</a></span>
+
+                <img src="../assets/defaultHead.png" class="headImg" width="60px;">
+                <span class="userName"><a href="">{{user.name}}</a></span>
+
             </div>
         </div>
 
          <div class="aside-main-text">
             <router-link to="/" @click.native="changeColor($event, '4')">首页</router-link>
             <transition name="slide-fade">
-                <i class="el-icon-caret-left" v-if="nav.a4" ></i>       
+                <i class="el-icon-caret-left" v-if="route === '/'" ></i>
             </transition>    
         </div>
 
         <div class="aside-main-text">
             <router-link to="/article" @click.native="changeColor($event, '1')">博客/文章</router-link>
             <transition name="slide-fade">
-                <i class="el-icon-caret-left" v-if="nav.a1" ></i>       
+                <i class="el-icon-caret-left" v-if="route === '/article'" ></i>
             </transition>    
         </div>
 
         <div class="aside-main-text">
             <router-link to="/photo" @click.native="changeColor($event, '2')">摄影/照片</router-link>
             <transition name="slide-fade">
-                <i class="el-icon-caret-left" v-if="nav.a2" ></i>       
+                <i class="el-icon-caret-left" v-if="route === '/photo'" ></i>
             </transition>    
         </div>
 
         <div class="aside-main-text">
             <router-link to="" @click.native="changeColor($event, '3')">关于我</router-link>
             <transition name="slide-fade">
-                <i class="el-icon-caret-left" v-if="nav.a3" ></i>       
+                <i class="el-icon-caret-left" v-if="route === '/aboutMe'" ></i>
             </transition>    
         </div>
 
@@ -76,13 +77,7 @@ import { mapState, } from 'vuex'
                 msg:'',
                 status:true,
                 search:'',
-                nav: {
-                    a0:false,
-                    a1:false,
-                    a2:false,
-                    a3:false,
-                    a4:false,
-                },
+                route:'',
             }
         },
         computed:{
@@ -100,45 +95,11 @@ import { mapState, } from 'vuex'
                 this.status = logstatus;
             },
             changeColor:function(e, num){
-                console.log(this.$route.path);
-                switch(num){
 
-                    case '0':
-                        this.nav.a0 = true;
-                        this.nav.a1 = false;
-                        this.nav.a2 = false;
-                        this.nav.a3 = false;
-                        this.nav.a4 = false;
-                    break;
-                    case '1':
-                        this.nav.a0 = false;
-                        this.nav.a1 = true;
-                        this.nav.a2 = false;
-                        this.nav.a3 = false;
-                        this.nav.a4 = false;
-                    break;
-                    case '2':
-                        this.nav.a0 = false;
-                        this.nav.a1 = false;
-                        this.nav.a2 = true;
-                        this.nav.a3 = false;
-                        this.nav.a4 = false;
-                    break;
-                    case '3':
-                        this.nav.a0 = false;
-                        this.nav.a1 = false;
-                        this.nav.a2 = false;
-                        this.nav.a3 = true;
-                        this.nav.a4 = false;
-                    break;
-                    case '4':
-                        this.nav.a0 = false;
-                        this.nav.a1 = false;
-                        this.nav.a2 = false;
-                        this.nav.a3 = false;
-                        this.nav.a4 = true;
-                    break;
-                }
+                setTimeout(() => { this.route = this.$route.path },100);
+
+                console.log(this.route);
+
             }
         }
     }
