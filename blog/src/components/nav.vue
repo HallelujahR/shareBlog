@@ -29,8 +29,11 @@ body{
         <div class="aside-main-text" v-else>
             <div id="user">
 
-                <img src="../assets/defaultHead.png" class="headImg" width="60px;">
-                <span class="userName"><a href="">{{user.name}}</a></span>
+                <span class="userName">
+                    <img  class="headImg" :src=user.avatar alt=""  width="50px;" v-if="user.avatar">
+                    <avatar class="headImg" :username="user.name || '' "  v-else></avatar>
+                    <router-link :to="{ name: 'user', params: { id: user.id }}" style="margin-right:10px;">{{user.name}}</router-link>
+                </span>
 
             </div>
         </div>

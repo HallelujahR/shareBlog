@@ -46,7 +46,7 @@
               <state-board></state-board>
             </el-header>
 
-            <el-main id="main"  style="margin-top:40px;border:1px solid red">
+            <el-main id="main"  style="padding:40px 0px 0px 0px;">
               <router-view :key="key"></router-view>
             </el-main>
           </el-container>

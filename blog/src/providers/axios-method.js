@@ -30,7 +30,7 @@ export function fetch(url,params={}){
  * @returns {Promise}
  */
 
-export function post(url,data = {}){
+export function post(url, data = {}){
 
 
     return new Promise((resolve,reject) => {

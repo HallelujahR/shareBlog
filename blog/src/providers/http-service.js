@@ -25,6 +25,10 @@ export const server = {
     //刷新token
     refreshToken: function() {
         return types.put('/authorizations/current');
+    },
+    //获取用户的信息
+    getInformation: function(paramObj) {
+        return types.post('/users',paramObj);
     }
 };
 

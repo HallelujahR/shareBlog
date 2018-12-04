@@ -52,16 +52,11 @@ $api->version('v1', [
 
 
 	$api->group([
-		//限制访问次数中间件
+		//限制访问次数中间件  //跨域访问中间件 //返回数据结构选择
         'middleware' => ['api.throttle','cors','serializer:array'],
-//        //跨域访问中间件
-//        'middleware' => 'cors',
-//        //返回数据结构选择 中间件 =》 目前是 array
-//        'middleware' => 'serializer:array',
         'limit' => config('api.rate_limits.access.limit'),
         'expires' => config('api.rate_limits.access.expires'),
     ], function ($api) {
-        // 游客可以访问的接口
 
         // 需要 token 验证的接口
         $api->group(['middleware' => 'token.canrefresh'], function($api) {
@@ -69,6 +64,16 @@ $api->version('v1', [
             $api->get('user', 'UsersController@me')
                 ->name('api.user.show');
         });
+    });
+
+	//其他数据接口
+	$api->group([
+	    //跨域
+        'middleware' => ['cors'],
+    ] , function($api) {
+	    //获取用户的数据
+        $api->post('users', 'UsersController@all')
+            ->name('api.user.information');
     });
 
     

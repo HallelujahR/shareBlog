@@ -11,6 +11,30 @@
   background-size:1680px;
   z-index:-3;
 }
-#user{
+#main-user{
   color:white;
+}
+#user-head{
+  border:1px solid red;
+  text-align:left;
+  padding-left:10px;
+  padding-top:10px;
+}
+.headPic{
+  border-radius:60px !important;
+  margin-bottom:20px;
+  width:120px;
+  height:120px;
+}
+#user-name{
+  font-size:22px;
+  margin-left:15px;
+  font-weight:bold;
+}
+#edit-information{
+  margin-left:10px;
+  font-size:10px;
+}
+.user-introduction{
+  margin-left:40px;
 }

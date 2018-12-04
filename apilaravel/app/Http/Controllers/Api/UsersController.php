@@ -48,4 +48,10 @@ class UsersController extends Controller
     {
         return $this->response->item($this->user(), new UserTransformer());
     }
+
+    //访问其他用户的数据
+    public function all(Request $request)
+    {
+        return $request->all();
+    }
 }

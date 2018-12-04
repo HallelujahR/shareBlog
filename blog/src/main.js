@@ -6,6 +6,8 @@ import ElementUI from 'element-ui';//引入element ui
 import 'element-ui/lib/theme-chalk/index.css';
 import {server} from './providers/http-service'//引入二次封装的axios
 
+Vue.component('avatar',() => import('vue-avatar'));  //引入自动生成头像插件
+
 Vue.prototype.$server=server;//定义全局变量axios
 Vue.use(ElementUI);
 

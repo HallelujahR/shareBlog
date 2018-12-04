@@ -12,7 +12,7 @@ export default new Router({
       component: () => import('./views/Index.vue')
     },
     {
-      path: '/user',
+      path: '/user/:id',
       name: 'user',
       component: () => import('./components/User/index.vue'),
     },
