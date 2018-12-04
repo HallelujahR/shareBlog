@@ -15,16 +15,29 @@
   color:white;
 }
 #user-head{
-  border:1px solid red;
+  // border-bottom:1px solid #CCC;
   text-align:left;
-  padding-left:10px;
+  padding-left:20px;
   padding-top:10px;
+  float:left;
+  width:100%;
+
+
+  #user-detail{
+    float:left;
+    height:130px;
+    margin-left:20px;
+    width:80%;
+    margin-top:10px;
+  }
+  
 }
 .headPic{
   border-radius:60px !important;
   margin-bottom:20px;
   width:120px;
   height:120px;
+  float:left;
 }
 #user-name{
   font-size:22px;
@@ -36,5 +49,16 @@
   font-size:10px;
 }
 .user-introduction{
-  margin-left:40px;
+  margin-left:15px;
+  font-size:14px;
+  height:60px;
+  margin-top:10px;
+}
+.user-web{
+  margin-left:15px;
+  font-size:14px;
+  margin-top:10px;
+  a{
+    color:white;
+  }
 }

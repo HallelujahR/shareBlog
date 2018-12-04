@@ -52,6 +52,6 @@ class UsersController extends Controller
     //访问其他用户的数据
     public function all(Request $request)
     {
-        return $request->all();
+        return User::findOrFail($request->all()['id']);
     }
 }

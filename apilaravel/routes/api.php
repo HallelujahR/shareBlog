@@ -72,7 +72,7 @@ $api->version('v1', [
         'middleware' => ['cors'],
     ] , function($api) {
 	    //获取用户的数据
-        $api->post('users', 'UsersController@all')
+        $api->post('users/all', 'UsersController@all')
             ->name('api.user.information');
     });
 
