@@ -28,7 +28,7 @@ export const server = {
   },
   //获取用户的信息
   getInformation: function (paramObj) {
-    return types.post('/users/all', paramObj);
+    return types.fetch('/users/all', paramObj);
   }
 };
 

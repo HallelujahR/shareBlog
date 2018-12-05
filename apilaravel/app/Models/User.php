@@ -40,4 +40,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    //一个用户只有一个详情表
+    public function user_detail() {
+        return $this->hasOne('App\Models\user_detail','uid');
+    }
 }

@@ -1,4 +1,4 @@
-<style type="scoped" lang="scss">
+<style lang="scss">
 @import "../../assets/css/user.scss";
 </style>
 
@@ -17,16 +17,17 @@
                 :username="user.name || '' "
                 v-else></avatar>
 
-        <div id="user-detail">
+        <div class="user-detail">
           <div id="user-name">
             {{user.name}}
-            <span id="edit-information"
-                  v-if="state">「
+            <router-link to="/alterDetail"
+                         id="edit-information"
+                         v-if="state">「
               编辑个人资料」
-            </span>
+            </router-link>
           </div>
           <div class="user-web">
-            个人博客站点： <a href='http://www.rivered.cn'>www.rivered.cn</a>
+            个人博客站点： <a :href="detail.web">{{detail.web}}</a>
           </div>
 
           <div class="user-introduction"
@@ -38,7 +39,46 @@
 
         </div>
 
+        <div class="user-detail">
+          <div class="user-detail-right">
+            职业经历: <span class="udr-line"
+                  v-if="detail.occupation">{{detail.occupation}}</span> <span v-else
+                  class="udr-line">未知</span></div>
+          <div class="user-detail-right">
+            教育经历: <span class="udr-line"
+                  v-if="detail.education">{{detail.education}}</span>
+            <span v-else
+                  class="udr-line">未知</span> </div>
+          <div class="user-detail-right">
+            爱好: <span class="udr-line"
+                  v-if="detail.hobby">{{detail.hobby}}</span>
+            <span v-else
+                  class="udr-line">未知的爱好= =|||</span> </div>
+        </div>
       </div>
+
+      <div id="user-body">
+        <!-- <div class="user-body-title">
+          写的文章
+        </div>
+        <div class="user-body-title">
+          拍的照片
+        </div> -->
+
+        <el-tabs v-model="activeName"
+                 @tab-click="handleClick">
+
+          <el-tab-pane style="color:white"
+                       label="写的文章"
+                       name="first">写的文章</el-tab-pane>
+          <el-tab-pane style="color:white"
+                       label="拍的照片"
+                       name="second">拍的照片</el-tab-pane>
+
+        </el-tabs>
+
+      </div>
+
     </div>
   </div>
 </template>
@@ -48,9 +88,10 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      msg: '1',
       state: null,
       user: {},
+      detail: {},
+      activeName: 'first',
     }
   },
   computed: {
@@ -61,9 +102,6 @@ export default {
   },
   created: function () {
     // console.log(this.user);
-  },
-  mounted: function () {
-
     if (this.token == localStorage.access_token) { this.state = true; }
 
     this.id = this.$route.params.id;
@@ -72,6 +110,8 @@ export default {
     }
     this.$server.getInformation(paramsObj).then(data => {
       this.user = data;
+      this.detail = data.user_detail;
+
       // eslint-disable-next-line no-console
       console.log(data);
     }).catch(err => {
@@ -79,8 +119,14 @@ export default {
       console.log(err);
     })
   },
-  moethods: {
+  mounted: function () {
 
+  },
+  methods: {
+    handleClick (tab, event) {
+      // eslint-disable-next-line no-console
+      console.log(tab, event);
+    }
   }
 }
 </script>

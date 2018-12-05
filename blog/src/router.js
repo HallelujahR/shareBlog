@@ -17,19 +17,24 @@ export default new Router({
       component: () => import('./components/User/index.vue'),
     },
     {
+      path: '/alterDetail',
+      name: 'alterDetail',
+      component: () => import('./components/User/alterDetail.vue'),
+    },
+    {
       path: '/article',
       name: 'article',
       component: () => import('./views/Article.vue'),
     },
     {
-      path:'/photo',
+      path: '/photo',
       name: 'photo',
-      component:() => import('./views/Photo.vue'),
+      component: () => import('./views/Photo.vue'),
     },
     {
-      path:'/logReg',
-      name:'logReg',
-      component:() => import('./components/loginOrRegister/logReg.vue'),
+      path: '/logReg',
+      name: 'logReg',
+      component: () => import('./components/loginOrRegister/logReg.vue'),
     },
 
   ]

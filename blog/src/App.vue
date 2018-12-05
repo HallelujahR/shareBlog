@@ -10,7 +10,7 @@
   z-index: -1;
 }
 .app-main {
-  width: 1364px;
+  width: 1300px;
   margin: 0 auto;
 }
 
@@ -19,12 +19,14 @@
   margin-top: 52px;
 }
 .el-aside {
-  border: 1px sold red;
   float: left;
   left: 0px;
   width: 300px;
   height: 200px;
-  margin-left: -90px;
+  margin-left: -20px;
+}
+.el-main {
+  width: 1000px;
 }
 </style>
 <template>

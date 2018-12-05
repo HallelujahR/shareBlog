@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Models\user_detail;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\UserRequest;
 use App\Transformers\UserTransformer;
@@ -29,6 +30,11 @@ class UsersController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
+        #创建用户详情表
+        user_detail::create([
+            'uid'=> $user['id'],
+        ]);
+
         // 清除验证码缓存
         \Cache::forget($request->verification_key);
 
@@ -52,6 +58,7 @@ class UsersController extends Controller
     //访问其他用户的数据
     public function all(Request $request)
     {
-        return User::findOrFail($request->all()['id']);
+        return User::with('user_detail')->findOrFail($request->all()['id']);
+
     }
 }

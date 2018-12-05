@@ -17,20 +17,17 @@
 #user-head{
   // border-bottom:1px solid #CCC;
   text-align:left;
-  padding-left:20px;
-  padding-top:10px;
   float:left;
-  width:100%;
+  width:1000px;
 
 
-  #user-detail{
+  .user-detail{
     float:left;
     height:130px;
-    margin-left:20px;
-    width:80%;
+    width:40%;
     margin-top:10px;
   }
-  
+
 }
 .headPic{
   border-radius:60px !important;
@@ -38,6 +35,8 @@
   width:120px;
   height:120px;
   float:left;
+  margin-left:50px;
+  margin-right:20px;
 }
 #user-name{
   font-size:22px;
@@ -47,6 +46,13 @@
 #edit-information{
   margin-left:10px;
   font-size:10px;
+  color:white;
+  text-decoration: none;
+  &:hover{
+    cursor: pointer;
+    transition:all 0.3s;
+    color:rgb(216, 168, 104);
+  }
 }
 .user-introduction{
   margin-left:15px;
@@ -58,7 +64,57 @@
   margin-left:15px;
   font-size:14px;
   margin-top:10px;
+  
   a{
+    text-decoration: none;
     color:white;
+    &:hover{
+      color:rgb(216, 168, 104);
+      transition: all 0.3s;
+    }
   }
+
+}
+.user-detail-right{
+  height:30px;
+  line-height:30px;
+  font-size:14px;
+  .udr-line{
+    margin-left:10px;
+  }
+}
+
+
+#user-body{
+  text-align:left;
+  float:left;
+  width:1000px;
+  margin-top:10px;
+  color:white !important;
+
+  #tab-first{
+    color:white;
+    &:hover{
+      color:rgb(216, 168, 104);
+      transition:all 0.3s;
+    }
+  }
+
+  #tab-second{
+    color:white;
+    &:hover{
+      color:rgb(216, 168, 104);
+      transition:all 0.3s;
+    }
+  }
+
+  .el-tabs__active-bar{
+    background-color:rgb(216, 168, 104) !important;
+  }
+}
+
+.user-body-title{
+  float:left;
+  height:50px;
+  border:1px solid blue;
 }
