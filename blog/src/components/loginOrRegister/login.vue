@@ -1,58 +1,67 @@
-<style type="scoped" lang="scss">
+<style scoped lang="scss">
 @import "../../assets/css/login.scss";
 </style>
 
 <template>
-  <div id="login">
-    <div id="login-title">
-      登录流域
-    </div>
-    <el-form :model="ruleForm"
-             :rules="rules"
-             ref="ruleForm"
-             class="demo-ruleForm">
-      <div class="login-user">
-        <el-form-item prop="account"
-                      :error="errorMsg">
-          <el-input placeholder="输入账号"
-                    suffix-icon="el-icon-phone"
-                    v-model="ruleForm.account"
-                    id="login-user-input">
-          </el-input>
-        </el-form-item>
+  <div id="login-body">
+    <div id="login">
+      <div id="login-title">
+        <img src="../../assets/riveredlogo.png"
+             width="150"
+             alt="">
       </div>
-      <div class="login-user">
-        <el-form-item prop="password">
-          <el-input placeholder="输入密码"
-                    suffix-icon="el-icon-edit"
-                    v-model="ruleForm.password"
-                    id="login-user-input2"
-                    type="password">
-          </el-input>
-        </el-form-item>
-      </div>
+      <el-form :model="ruleForm"
+               :rules="rules"
+               ref="ruleForm"
+               class="demo-ruleForm">
+        <div>
+          <el-form-item prop="account"
+                        :error="errorMsg">
+            <el-input placeholder="输入账号"
+                      suffix-icon="el-icon-phone"
+                      v-model="ruleForm.account"
+                      class="login-user-input">
+            </el-input>
+          </el-form-item>
+        </div>
+        <div>
+          <el-form-item prop="password">
+            <el-input placeholder="输入密码"
+                      suffix-icon="el-icon-edit"
+                      v-model="ruleForm.password"
+                      class="login-user-input"
+                      type="password">
+            </el-input>
+          </el-form-item>
+        </div>
 
-      <div class="login-user">
-        <el-form-item>
+        <div id="login-foot">
           <el-button class="login-btn"
                      type="primary"
                      @click="submitForm('ruleForm')">立即登录</el-button>
-          <div class="register">找回密码</div>
-          <div class="register"
-               @click="register()"
-               style="margin-left:200px;">还没有账号？立即注册</div>
-        </el-form-item>
-      </div>
-    </el-form>
+          <div class="findPass">
+            <span> 找回密码</span>
+          </div>
 
-    <div id="login-ds">
-      <span style="float:left">第三方登录:</span>
-      <img class="login-icon"
-           width="40px;"
-           src="../../assets/qqicon.png" />
-      <img class="login-icon"
-           width="40px;"
-           src="../../assets/weibo.png" />
+        </div>
+      </el-form>
+
+      <div id="login-ds">
+        <div id="ds-title">
+          <span>——————————— 社交账号登录 ———————————</span>
+        </div>
+        <div id="ds-in">
+          <img class="login-icon"
+               width="25px;"
+               src="../../assets/qq.png" />
+          <img class="login-icon"
+               width="25px;"
+               src="../../assets/sina.png" />
+        </div>
+      </div>
+
+      <div class="register"
+           @click="register()">还没有账号？立即注册</div>
     </div>
   </div>
 </template>

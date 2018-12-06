@@ -1,5 +1,4 @@
-
- <style lang="scss">
+<style lang="scss">
 @import "../assets/css/nav.scss";
 </style>
 
@@ -13,28 +12,32 @@
 
     <div class="head-text">
       <router-link to="/"
-                   @click.native="changeColor($event, '4')">
+                   :class="{'route' : route == '/'}"
+                   @click.native="change('/')">
         <i class="el-icon-menu"></i>
         首页</router-link>
     </div>
 
     <div class="head-text">
       <router-link to="/article"
-                   @click.native="changeColor($event, '1')">
+                   :class="{'route' : route == '/article'}"
+                   @click.native="change('/article')">
         <i class="el-icon-document"></i>
         博客/文章</router-link>
     </div>
 
     <div class="head-text">
       <router-link to="/photo"
-                   @click.native="changeColor($event, '2')">
+                   :class="{'route' : route == '/photo'}"
+                   @click.native="change('/photo')">
         <i class="el-icon-picture-outline"></i>
         摄影/照片</router-link>
     </div>
 
     <div class="head-text">
       <router-link to="/aboutMe"
-                   @click.native="changeColor($event, '3')">
+                   :class="{'route' : route == '/aboutMe'}"
+                   @click.native="change('/aboutMe')">
         <i class="el-icon-info"></i>
         关于我</router-link>
     </div>
@@ -48,16 +51,21 @@
       </el-input>
     </div>
 
-    <div class="head-text"
+    <div id="regLog"
+         class="head-text"
          v-if="!verbState">
       <router-link to="/login"
-                   @click.native="changeColor($event, '0')"> 登录 </router-link>
+                   @click.native="change('/login')"
+                   :class="{'route' : route == '/login'}"> 登录 </router-link>
       <router-link to="/register"
-                   @click.native="changeColor($event, '0')"> 注册 </router-link>
+                   @click.native="change('/register')"
+                   :class="{'route' : route == '/register'}"> 注册 </router-link>
+
     </div>
 
     <el-dropdown v-else>
-      <span class="el-dropdown-link">
+      <span class="
+                   el-dropdown-link">
         <img class="headImg"
              :src=user.avatar
              alt=""
@@ -104,19 +112,17 @@ export default {
 
   },
   mounted: function () {
-
+    // 根据路径变更颜色
+    setTimeout(() => { this.route = this.$route.path }, 100);
   },
   methods: {
     logstatus: function (logstatus) {
       this.status = logstatus;
     },
-    changeColor: function () {
-
-      setTimeout(() => { this.route = this.$route.path }, 100);
-      // eslint-disable-next-line no-console
-      console.log(this.route);
-
-    }
+    //变更颜色根据路径
+    change: function (route) {
+      this.route = route;
+    },
   }
 }
 </script>

@@ -1,4 +1,8 @@
 $font-color:#14171a;
+.route{
+  box-shadow: inset 0px -2px 0px #1DA1F2 ;
+  color:#1DA1F2 !important;
+}
 #head-main{
   width:1200px;
   margin:0 auto;
@@ -32,6 +36,17 @@ $font-color:#14171a;
       transition:all 0.5s;
       box-shadow:inset 0px -2px 0px #1DA1F2 
     }
+  }
+}
+
+#regLog{
+  width:140px;
+  display: flex;
+  a{
+    text-align:center;
+    width:50%;
+    padding:0px;
+    margin-right:0px !important;
   }
 }
 

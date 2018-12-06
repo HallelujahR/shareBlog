@@ -12,6 +12,16 @@ export default new Router({
       component: () => import('./views/Index.vue')
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('./components/loginOrRegister/login.vue'),
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('./components/loginOrRegister/register.vue'),
+    },
+    {
       path: '/user/:id',
       name: 'user',
       component: () => import('./components/User/index.vue'),
@@ -31,11 +41,5 @@ export default new Router({
       name: 'photo',
       component: () => import('./views/Photo.vue'),
     },
-    {
-      path: '/logReg',
-      name: 'logReg',
-      component: () => import('./components/loginOrRegister/logReg.vue'),
-    },
-
   ]
 })
