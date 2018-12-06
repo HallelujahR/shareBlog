@@ -1,64 +1,31 @@
-<style type="scoped" lang="scss">
-#app-son {
-  background-color: rgba(15, 26, 29, 0.6);
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  z-index: -1;
-}
-.app-main {
-  width: 1300px;
+<style lang="scss">
+body {
   margin: 0 auto;
 }
-
-#app-header {
-  padding-left: 0px;
-  margin-top: 52px;
-}
-.el-aside {
-  float: left;
-  left: 0px;
-  width: 300px;
-  height: 200px;
-  margin-left: -20px;
+.el-header {
+  box-shadow: 0px 0px 3px #ccc;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 100000 !important;
 }
 .el-main {
-  width: 1000px;
+  margin-top: 70px;
+  padding: 0px !important;
+  width: 1200px;
+  margin: 0 auto;
+  margin-top: 70px;
 }
 </style>
 <template>
-  <div id="app">
-    <div id="app-son">
-    </div>
-
-    <transition name="el-fade-in">
-
-      <div v-show="show"
-           class="transition-box app-main">
-        <el-container>
-          <el-aside>
-            <dh></dh>
-          </el-aside>
-
-          <el-container>
-            <el-header id="app-header">
-              <state-board></state-board>
-            </el-header>
-
-            <el-main id="main"
-                     style="padding:40px 0px 0px 0px;">
-              <router-view :key="key"></router-view>
-            </el-main>
-          </el-container>
-        </el-container>
-      </div>
-
-    </transition>
-
-  </div>
+  <el-container>
+    <el-header height="50px">
+      <dh></dh>
+    </el-header>
+    <el-main>
+      <router-view></router-view>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
@@ -68,13 +35,11 @@ export default {
 
   data () {
     return {
-      qwer: 1,
-      msg: 'as',
       show: false,
     }
   },
   components: {
-    'state-board': () => import('./components/loginOrRegister/stateBoard'),//引入上方导航栏组件
+    // 'state-board': () => import('./components/loginOrRegister/stateBoard'),//引入上方导航栏组件
     'dh': () => import('./components/nav.vue'),//引入左侧导航组件
   },
   computed: {

@@ -4,7 +4,6 @@
 
 <template>
   <div>
-    <div id="background-img0"></div>
 
     <div id="log-main">
       <transition name="slide-fade">

@@ -1,92 +1,84 @@
 
- <style scoped lang="scss">
+ <style lang="scss">
 @import "../assets/css/nav.scss";
-body {
-  margin: 0;
-  padding: 0;
-}
 </style>
 
 <template>
 
-  <div id="aside-main">
-    <div class="aside-main-title"> Rivered/流域</div>
+  <div id="head-main">
+    <div class="head-title">
+      <img src="../assets/riveredlogo.png"
+           alt="">
+    </div>
 
-    <div class="aside-main-search">
-      <el-input placeholder="搜索，你期待的..."
-                v-model="search"
-                class="input-with-search">
-        <el-button slot="append"
-                   icon="el-icon-search"></el-button>
+    <div class="head-text">
+      <router-link to="/"
+                   @click.native="changeColor($event, '4')">
+        <i class="el-icon-menu"></i>
+        首页</router-link>
+    </div>
+
+    <div class="head-text">
+      <router-link to="/article"
+                   @click.native="changeColor($event, '1')">
+        <i class="el-icon-document"></i>
+        博客/文章</router-link>
+    </div>
+
+    <div class="head-text">
+      <router-link to="/photo"
+                   @click.native="changeColor($event, '2')">
+        <i class="el-icon-picture-outline"></i>
+        摄影/照片</router-link>
+    </div>
+
+    <div class="head-text">
+      <router-link to="/aboutMe"
+                   @click.native="changeColor($event, '3')">
+        <i class="el-icon-info"></i>
+        关于我</router-link>
+    </div>
+
+    <div class="head-search">
+      <el-input class="search"
+                size="medium"
+                placeholder="搜索流域"
+                suffix-icon="el-icon-search"
+                v-model="input6">
       </el-input>
     </div>
 
-    <div class="aside-main-text"
+    <div class="head-text"
          v-if="!verbState">
-      <router-link to="/logReg"
+      <router-link to="/login"
                    @click.native="changeColor($event, '0')"> 登录 </router-link>
-      <transition name="slide-fade">
-        <i class="el-icon-caret-left"
-           v-if="route === '/logReg'"></i>
-      </transition>
+      <router-link to="/register"
+                   @click.native="changeColor($event, '0')"> 注册 </router-link>
     </div>
 
-    <div class="aside-main-text"
-         v-else>
-      <div id="user">
-
-        <span class="userName">
-          <img class="headImg"
-               :src=user.avatar
-               alt=""
-               width="50px;"
-               v-if="user.avatar">
-          <avatar class="headImg"
-                  :username="user.name || '' "
-                  v-else></avatar>
+    <el-dropdown v-else>
+      <span class="el-dropdown-link">
+        <img class="headImg"
+             :src=user.avatar
+             alt=""
+             width="40px;"
+             v-if="user.avatar">
+        <avatar class="headImg"
+                :size="40"
+                :username="user.name || '' "
+                v-else></avatar>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>
           <router-link :to="{ name: 'user', params: { id: user.id }}"
                        style="margin-right:10px;">{{user.name}}</router-link>
-        </span>
-
-      </div>
-    </div>
-
-    <div class="aside-main-text">
-      <router-link to="/"
-                   @click.native="changeColor($event, '4')">首页</router-link>
-      <transition name="slide-fade">
-        <i class="el-icon-caret-left"
-           v-if="route === '/'"></i>
-      </transition>
-    </div>
-
-    <div class="aside-main-text">
-      <router-link to="/article"
-                   @click.native="changeColor($event, '1')">博客/文章</router-link>
-      <transition name="slide-fade">
-        <i class="el-icon-caret-left"
-           v-if="route === '/article'"></i>
-      </transition>
-    </div>
-
-    <div class="aside-main-text">
-      <router-link to="/photo"
-                   @click.native="changeColor($event, '2')">摄影/照片</router-link>
-      <transition name="slide-fade">
-        <i class="el-icon-caret-left"
-           v-if="route === '/photo'"></i>
-      </transition>
-    </div>
-
-    <div class="aside-main-text">
-      <router-link to=""
-                   @click.native="changeColor($event, '3')">关于我</router-link>
-      <transition name="slide-fade">
-        <i class="el-icon-caret-left"
-           v-if="route === '/aboutMe'"></i>
-      </transition>
-    </div>
-
+        </el-dropdown-item>
+        <el-dropdown-item>狮子头</el-dropdown-item>
+        <el-dropdown-item>螺蛳粉</el-dropdown-item>
+        <el-dropdown-item>双皮奶</el-dropdown-item>
+        <el-dropdown-item>蚵仔煎</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
   </div>
 
 </template>
@@ -101,6 +93,7 @@ export default {
       status: true,
       search: '',
       route: '',
+      input6: '',
     }
   },
   computed: {
