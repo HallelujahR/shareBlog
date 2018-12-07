@@ -3,10 +3,13 @@
 </style>
 
 <template>
-  <div>
+  <div id="register-body"
+       v-loading.fullscreen.lock="fullscreenLoading">
     <div id="register">
-      <div id="register-title">
-        加入流域
+      <div id="registerLogo">
+        <img src="../../assets/riveredlogo.png"
+             width="130px"
+             alt="">
       </div>
 
       <el-form :model="ruleForm"
@@ -19,7 +22,6 @@
             <el-input placeholder="输入手机号"
                       suffix-icon="el-icon-phone"
                       v-model="ruleForm.account"
-                      id="register-user-input0"
                       @input="oninput()">
               <el-button :disabled='isdis'
                          @click="getCap('ruleForm', 'account')"
@@ -35,8 +37,7 @@
                           :error="errorMsg">
               <el-input placeholder="输入验证码"
                         suffix-icon="el-icon-document"
-                        v-model="ruleForm.yzm"
-                        id="register-user-input">
+                        v-model="ruleForm.yzm">
 
                 <el-button slot="prepend"
                            style="padding:0px;">
@@ -64,8 +65,7 @@
                           prop="name">
               <el-input placeholder="输入昵称"
                         suffix-icon="el-icon-tickets"
-                        v-model="ruleForm.name"
-                        id="register-user-input3">
+                        v-model="ruleForm.name">
 
               </el-input>
             </el-form-item>
@@ -74,7 +74,6 @@
               <el-input placeholder="请输入密码"
                         suffix-icon="el-icon-edit-outline"
                         v-model="ruleForm.password"
-                        id="register-user-input4"
                         type="password">
 
               </el-input>
@@ -84,8 +83,7 @@
                           :error="errorSms">
               <el-input placeholder="输入短信验证码"
                         suffix-icon="el-icon-message"
-                        v-model="ruleForm.sms"
-                        id="register-user-input5">
+                        v-model="ruleForm.sms">
 
                 <el-button slot="append"
                            @click="regNow('ruleForm','name', 'password', 'sms')">
@@ -103,20 +101,26 @@
       </el-form>
 
       <div id="register-ds">
-        <span style="float:left">第三方登录:</span>
-        <img class="register-icon"
-             src="../../assets/qqicon.png" />
-        <img class="register-icon"
-             src="../../assets/weibo.png" />
+        <div id="register-title">
+          <span>———————— 社交账号登录 ————————</span>
+        </div>
+        <div id="register-in">
+          <img class="register-icon"
+               width="25px;"
+               src="../../assets/qq.png" />
+          <img class="register-icon"
+               width="25px;"
+               src="../../assets/sina.png" />
+        </div>
 
-        <div class="register"
-             @click="register()"
-             style="margin-left:200px;">已有账号？立即账号</div>
+      </div>
+      <div class="register">
+        <router-link to='/login'>已有账号？立即登录</router-link>
       </div>
     </div>
+
   </div>
 </template>
-select sum(pay),(select u.pay where finance_month='2018-09')  from userinfos as u where uid=1062853110 and finance_month='2018-10';
 <script>
 import { mapMutations, mapActions } from 'vuex'
 
@@ -159,6 +163,8 @@ export default {
       //注册按钮的显示
       isZc: true,
 
+      fullscreenLoading: false,
+
       rules: {
         account: [
           { required: true, message: '请输入账号', trigger: 'blur' },
@@ -184,9 +190,14 @@ export default {
       }
     }
   },
+  created: function () {
+    this.fullscreenLoading = true;
+    if (localStorage.verbState === 'true') this.$router.push({ name: 'index' })
+  },
   mounted: function () {
 
-    setTimeout(function () { this.show = true }, 200);
+    setTimeout(function () { this.fullscreenLoading = false; }.bind(this), 200);
+
   },
   computed: {
     ...mapActions([

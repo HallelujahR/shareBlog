@@ -63,7 +63,9 @@
 
     </div>
 
-    <el-dropdown v-else>
+    <el-dropdown class="select"
+                 @command="handleCommand"
+                 v-else>
       <span class="
                    el-dropdown-link">
         <img class="headImg"
@@ -78,13 +80,26 @@
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item>
-          <router-link :to="{ name: 'user', params: { id: user.id }}"
-                       style="margin-right:10px;">{{user.name}}</router-link>
+          <router-link class="user-link"
+                       :to="{ name: 'user', params: { id: user.id }}">{{user.name}}</router-link>
         </el-dropdown-item>
-        <el-dropdown-item>狮子头</el-dropdown-item>
-        <el-dropdown-item>螺蛳粉</el-dropdown-item>
-        <el-dropdown-item>双皮奶</el-dropdown-item>
-        <el-dropdown-item>蚵仔煎</el-dropdown-item>
+        <el-dropdown-item>
+          <router-link class="user-link"
+                       :to="{ name: 'user', params: { id: user.id }}">
+            <img width="15px"
+                 src="../assets/iconuser.png"
+                 alt=""> 个人中心</router-link>
+        </el-dropdown-item>
+        <el-dropdown-item>
+          <i class="el-icon-bell"></i>
+          通知消息</el-dropdown-item>
+        <el-dropdown-item>
+          <i class="el-icon-message
+"></i>
+          私信消息</el-dropdown-item>
+        <el-dropdown-item command="logout">
+          <i class="el-icon-circle-close-outline"
+             style="margin-right:5px;"></i>退出</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -92,8 +107,7 @@
 </template>
 
 <script>
-import { mapState, } from 'vuex'
-
+import { mapState, mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -116,12 +130,35 @@ export default {
     setTimeout(() => { this.route = this.$route.path }, 100);
   },
   methods: {
+    ...mapMutations({
+      setverbState: 'SET_VERBSTATE',
+      setToken: 'SET_TOKEN',
+    }),
     logstatus: function (logstatus) {
       this.status = logstatus;
     },
     //变更颜色根据路径
     change: function (route) {
       this.route = route;
+    },
+    handleCommand: function (command) {
+      if (command === 'logout') this.logout();
+    },
+    logout: function () {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('verbState');
+      localStorage.removeItem('relogin');
+      //把登录后的token 存储在vuex 中
+      this.setverbState(false);
+      this.setToken('');
+
+      this.$message({
+        message: '已经成功退出',
+        type: 'warning'
+      });
+
+      this.$router.push({ name: 'login' });
+
     },
   }
 }

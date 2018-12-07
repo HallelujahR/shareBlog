@@ -3,7 +3,8 @@
 </style>
 
 <template>
-  <div id="login-body">
+  <div id="login-body"
+       v-loading.fullscreen.lock="fullscreenLoading">
     <div id="login">
       <div id="login-title">
         <img src="../../assets/riveredlogo.png"
@@ -48,7 +49,7 @@
 
       <div id="login-ds">
         <div id="ds-title">
-          <span>——————————— 社交账号登录 ———————————</span>
+          <span>———————— 社交账号登录 ————————</span>
         </div>
         <div id="ds-in">
           <img class="login-icon"
@@ -60,8 +61,11 @@
         </div>
       </div>
 
-      <div class="register"
-           @click="register()">还没有账号？立即注册</div>
+      <div class="register">
+        <router-link to="/register">
+          还没有账号？立即注册
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -87,7 +91,8 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
         ],
-      }
+      },
+      fullscreenLoading: false,
     }
   },
   computed: {
@@ -99,8 +104,12 @@ export default {
     ]),
 
   },
+  created: function () {
+    this.fullscreenLoading = true;
+    if (localStorage.verbState === 'true') this.$router.push({ name: 'index' })
+  },
   mounted: function () {
-    setTimeout(function () { this.show = true }, 200);
+    setTimeout(function () { this.fullscreenLoading = false; }.bind(this), 200);
     if (localStorage.relogin === 'true') {
       this.$message({
         message: '登录过期，请重新登录',
@@ -150,16 +159,14 @@ export default {
             });
 
             //登录成功跳转到首页
-            this.$router.push({ name: 'index' })
-
+            this.$router.push({ name: 'index' });
           })
             .catch(err => {
 
               if (err.status === 401) {
-
-                this.errorMsg = '用户或密码错误';
+                this.$message.error('用户或密码错误');
+                localStorage.removeItem('relogin');
                 return false;
-
               }
             })
 
@@ -171,9 +178,6 @@ export default {
     },
     resetForm: function (formName) {
       this.$refs[formName].resetFields();
-    },
-    register () {
-      this.$emit('reg', true);
     },
     //获取用户数据
 

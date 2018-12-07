@@ -1,94 +1,56 @@
+#register-body{
+  display: flex;
+  justify-content:center;
+  align-items:Center;
+  height:75vh;
+}
 #register{
 	height:auto;
-  width:50%;
+  width:35%;
   padding-left:20px;
-}
-#register-title{
-	color:white;
-	font-size:20px;
-	font-weight:bold;
-	/*border:1px solid red;*/
-	text-align:left;
-}
-.register-user{
-	margin-top:40px;
-}
-#register-user-input0{
-	border:0px;
-	border-bottom:3px solid white;
-	background-color:transparent;
-	border-radius: 0px;
-	color:white;
-}
-#register-user-input{
-	border:0px;
-	border-bottom:3px solid white;
-	background-color:transparent;
-	border-radius: 0px;
-	color:white;
-}
-#register-user-input2{
-	border:0px;
-	border-bottom:3px solid white;
-	background-color:transparent;
-	border-radius: 0px;
-	color:white;
-}
-#register-user-input3{
-	border:0px;
-	border-bottom:3px solid white;
-	background-color:transparent;
-	border-radius: 0px;
-	color:white;
-}
-#register-user-input4{
-	border:0px;
-	border-bottom:3px solid white;
-	background-color:transparent;
-	border-radius: 0px;
-	color:white;
-}
-#register-user-input5{
-	border:0px;
-	border-bottom:3px solid white;
-	background-color:transparent;
-	border-radius: 0px;
-	color:white;
+  box-shadow:0px 0px 5px #CCC;
+  padding:20px 30px 20px 30px;
+  border-radius:5px;
+  display: flex;
+  flex-direction: column;
+  #registerLogo{
+    margin-bottom:20px;
+  }
 }
 
-.register-btn{
-	float:left;
-	border-radius: 0px;
-	background: rgb(216, 168, 104);
-	border:none;
-
-	&:hover{
-		background: #f2cea5;
-		transition:all 0.3s;
-	};
-}
-.register{
-	float:left;
-	color:white;
-	margin-left:20px;
-	&:hover{
-		cursor:pointer;
-		color: rgb(216, 168, 104);
-		transition: all 0.3s;
-	};
-}
 #register-ds{
-	color:white;
-	text-align:left;
-	font-size:14px;
-	margin-top:40px;
+  margin-top:20px;
+  height: 100px;
+  #register-title{
+    text-align:center;
+    color:#909399;
+    font-size:14px;
+    opacity:0.7;
+    
+  }
+
+  #register-in{
+    text-align: center;
+    margin-top:20px;
+    img{
+      margin-right:20px;
+    }
+  }
 }
-.register-icon{
-	width:22px;
-	background-color:white;
-	border-radius: 11.5px;
-	margin-left:20px;
-	float:left;
+
+.register{
+  text-align:right;
+  width:100%;
+  a{
+    color:#909399;
+    font-size:14px;
+    text-decoration: none;
+    &:hover{
+      color:#1DA1F2;
+      transition:all 0.4s;
+      cursor: pointer;
+    }
+  }
 }
 
 .slide-fade-enter-active {

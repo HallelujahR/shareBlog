@@ -71,7 +71,7 @@ axios.interceptors.response.use(response => {
         store.commit('SET_VERBSTATE', false);
         store.commit('SET_TOKEN', '');
         //跳转到登录页面
-        router.push({ name: 'logReg' });
+        router.push({ name: 'login' });
         //设置是否重新登录提示
         localStorage.setItem('relogin', 'true');
         // eslint-disable-next-line no-console

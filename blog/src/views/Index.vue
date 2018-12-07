@@ -26,7 +26,6 @@ export default {
     ]),
   },
   created: function () {
-    const _this = this;
 
   },
   mounted: function () {

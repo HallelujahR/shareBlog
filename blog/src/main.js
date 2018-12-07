@@ -4,11 +4,11 @@ import router from './router'
 import store from './store' //引入 vuex store
 import ElementUI from 'element-ui';//引入element ui
 import 'element-ui/lib/theme-chalk/index.css';
-import {server} from './providers/http-service'//引入二次封装的axios
+import { server } from './providers/http-service'//引入二次封装的axios
+import { Loading } from 'element-ui'; // 引入加载效果组建
+Vue.component('avatar', () => import('vue-avatar'));  //引入自动生成头像插件
 
-Vue.component('avatar',() => import('vue-avatar'));  //引入自动生成头像插件
-
-Vue.prototype.$server=server;//定义全局变量axios
+Vue.prototype.$server = server;//定义全局变量axios
 Vue.use(ElementUI);
 
 

@@ -7,7 +7,7 @@ body {
   position: fixed;
   top: 0px;
   width: 100%;
-  z-index: 100000 !important;
+  z-index: 1000 !important;
 }
 .el-main {
   margin-top: 70px;
