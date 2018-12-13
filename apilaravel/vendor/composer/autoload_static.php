@@ -456,6 +456,7 @@ class ComposerStaticInit9988e3684bdf8fa5d43c7e4ec5816696
         'App\\Http\\Requests\\Api\\UserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Api/UserRequest.php',
         'App\\Http\\Requests\\Api\\VerificationCodeRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Api/VerificationCodeRequest.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\user_detail' => __DIR__ . '/../..' . '/app/Models/user_detail.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',

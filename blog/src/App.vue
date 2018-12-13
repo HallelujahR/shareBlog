@@ -8,6 +8,7 @@ body {
   top: 0px;
   width: 100%;
   z-index: 1000 !important;
+  background-color: white;
 }
 .el-main {
   margin-top: 70px;
@@ -39,7 +40,6 @@ export default {
     }
   },
   components: {
-    // 'state-board': () => import('./components/loginOrRegister/stateBoard'),//引入上方导航栏组件
     'dh': () => import('./components/nav.vue'),//引入左侧导航组件
   },
   computed: {
@@ -74,7 +74,6 @@ export default {
     }
   },
   mounted: function () {
-
     setTimeout(() => { this.show = true; }, 100);
 
   },

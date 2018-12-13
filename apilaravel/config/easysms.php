@@ -21,7 +21,7 @@ return [
         'qcloud' => [
             'sdk_app_id' => env('QCLOUD_API_ID'), // SDK APP ID
             'app_key' => env('QCLOUD_API_KEY'), // APP KEY
-            'sign_name' => '', // 短信签名，如果使用默认签名，该字段可缺省（对应官方文档中的sign）
+            'sign_name' => 'rivered', // 短信签名，如果使用默认签名，该字段可缺省（对应官方文档中的sign）
         ],
     ],
 ];

@@ -4,7 +4,7 @@
 
 <template>
   <div id="login-body"
-       v-loading.fullscreen.lock="fullscreenLoading">
+       v-loading="Loading">
     <div id="login">
       <div id="login-title">
         <img src="../../assets/riveredlogo.png"
@@ -92,7 +92,7 @@ export default {
           { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
         ],
       },
-      fullscreenLoading: false,
+      Loading: true,
     }
   },
   computed: {
@@ -105,11 +105,10 @@ export default {
 
   },
   created: function () {
-    this.fullscreenLoading = true;
     if (localStorage.verbState === 'true') this.$router.push({ name: 'index' })
   },
   mounted: function () {
-    setTimeout(function () { this.fullscreenLoading = false; }.bind(this), 200);
+    setTimeout(function () { this.Loading = false; }.bind(this), 200);
     if (localStorage.relogin === 'true') {
       this.$message({
         message: '登录过期，请重新登录',

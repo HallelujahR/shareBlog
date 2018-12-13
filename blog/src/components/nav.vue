@@ -66,30 +66,32 @@
     <el-dropdown class="select"
                  @command="handleCommand"
                  v-else>
-      <span class="
-                   el-dropdown-link">
-        <img class="headImg"
-             :src=user.avatar
-             alt=""
-             width="40px;"
-             v-if="user.avatar">
+      <span class="el-dropdown-link">
         <avatar class="headImg"
+                :src=user.avatar
                 :size="40"
-                :username="user.name || '' "
-                v-else></avatar>
+                background-color="#1DA1F2"
+                :username="user.name || '' "></avatar>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>
-          <router-link class="user-link"
-                       :to="{ name: 'user', params: { id: user.id }}">{{user.name}}</router-link>
-        </el-dropdown-item>
-        <el-dropdown-item>
-          <router-link class="user-link"
-                       :to="{ name: 'user', params: { id: user.id }}">
-            <img width="15px"
-                 src="../assets/iconuser.png"
-                 alt=""> 个人中心</router-link>
-        </el-dropdown-item>
+        <router-link class="user-link username"
+                     :to="{ name: 'user', params: { id: user.id }}">
+          <el-dropdown-item class="user-a">
+            <i class="el-icon-info"></i>
+            {{user.name}}
+            <div><i style="margin-right:5px;"
+                 class="el-icon-mobile-phone
+"></i>{{user.phone}}</div>
+
+          </el-dropdown-item>
+        </router-link>
+        <router-link class="user-link"
+                     :to="{ name: 'user', params: { id: user.id }}">
+          <el-dropdown-item class="user-a">
+            <i class="el-icon-news"></i>
+            个人中心
+          </el-dropdown-item>
+        </router-link>
         <el-dropdown-item>
           <i class="el-icon-bell"></i>
           通知消息</el-dropdown-item>

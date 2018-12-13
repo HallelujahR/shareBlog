@@ -32,6 +32,7 @@ return array(
     'App\\Http\\Requests\\Api\\UserRequest' => $baseDir . '/app/Http/Requests/Api/UserRequest.php',
     'App\\Http\\Requests\\Api\\VerificationCodeRequest' => $baseDir . '/app/Http/Requests/Api/VerificationCodeRequest.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
+    'App\\Models\\user_detail' => $baseDir . '/app/Models/user_detail.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',

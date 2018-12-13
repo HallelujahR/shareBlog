@@ -1,10 +1,10 @@
-<style type="scoped" lang="scss">
+<style scoped lang="scss">
 @import "../../assets/css/register.scss";
 </style>
 
 <template>
   <div id="register-body"
-       v-loading.fullscreen.lock="fullscreenLoading">
+       v-loading="Loading">
     <div id="register">
       <div id="registerLogo">
         <img src="../../assets/riveredlogo.png"
@@ -163,7 +163,7 @@ export default {
       //注册按钮的显示
       isZc: true,
 
-      fullscreenLoading: false,
+      Loading: true,
 
       rules: {
         account: [
@@ -196,7 +196,7 @@ export default {
   },
   mounted: function () {
 
-    setTimeout(function () { this.fullscreenLoading = false; }.bind(this), 200);
+    setTimeout(function () { this.Loading = false; }.bind(this), 200);
 
   },
   computed: {
@@ -268,7 +268,6 @@ export default {
     },
     checkYzm (formName, field, event) {
 
-
       //请空自定义消息
       this.errorMsg = '';
       //使用了element ui 的form组件 个别字段验证 验证 验证码
@@ -309,10 +308,8 @@ export default {
 
             //显示密码 昵称等输入框
             this.showSms = true;
-
           }).catch(err => {
-
-            if (err.status === 401) {
+            if (err.status === 412) {
               this.getCap('ruleForm', 'yzm');
               this.errorMsg = '验证码错误';
               return false;
@@ -413,7 +410,7 @@ export default {
                 this.isZc = true;
                 return false;
 
-              } else if (err.status === 401) {
+              } else if (err.status === 433) {
 
                 this.errorSms = '验证码错误';
                 //判断按钮状态

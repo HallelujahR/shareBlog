@@ -19,12 +19,12 @@ class VerificationCodesController extends Controller
         if (!hash_equals($captchaData['code'], $request->captcha_code)) {
             // 验证错误就清除缓存
             \Cache::forget($request->captcha_key);
-            return $this->response->errorUnauthorized('验证码错误');
+            return $this->response->error('验证码错误',412);
         }
 
         $phone = $captchaData['phone'];
 
-        if (!app()->environment('production')) {
+        if (app()->environment('production')) {
             $code = '1234';
         } else {
             // 生成4位随机数，左侧补0
@@ -32,10 +32,11 @@ class VerificationCodesController extends Controller
 
             try {
                 $result = $easySms->send($phone, [
-                    'content'  =>  "【Lbbs社区】您的验证码是{$code}。如非本人操作，请忽略本短信"
+                    'content'  =>  "{$code}为您的登录验证码，请于5分钟内填写。如非本人操作，请忽略本短信。"
+
                 ]);
             } catch (\Overtrue\EasySms\Exceptions\NoGatewayAvailableException $exception) {
-                $message = $exception->getException('yunpian')->getMessage();
+                $message = $exception->getException('qcloud')->getMessage();
                 return $this->response->errorInternal($message ?? '短信发送异常');
             }
         }
