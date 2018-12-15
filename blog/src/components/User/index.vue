@@ -15,11 +15,14 @@
               :placeholder-font-size="30"
               :disabled="false"
               :prevent-white-space="true"
+              :disable-scroll-to-zoom="true"
               disable-click-to-choose
               :show-remove-button="false"
-              :initial-image="backimg"
+              @new-image-drawn="onNewImage"
+              @zoom="onZoom"
               remove-button-color="#1DA1F2">
-
+        <img :src=backimg
+             slot="initial">
       </croppa>
 
       <div id="user-head-foot">
@@ -41,7 +44,22 @@
             <div class="foot-nav-list">
               <i class="el-icon-picture"></i>
               拍的照片
-            </div> <button @click="croppa.chooseFile()">CHOOSE FILE...</button>
+            </div>
+            <div class="foot-nav-list">
+              <i class="el-icon-picture"></i>
+              关注了
+            </div>
+            <div class="foot-nav-list">
+              <i class="el-icon-picture"></i>
+              关注者
+            </div>
+            <input type="range"
+                   @input="onSliderChange"
+                   :min="sliderMin"
+                   :max="sliderMax"
+                   step=".001"
+                   v-model="sliderVal">
+            <button @click="croppa.chooseFile()">CHOOSE FILE...</button>
             <button @click="upload">UPLOAD</button>
             <router-link to="/alterDetail"
                          id="edit-information-btn"
@@ -106,7 +124,12 @@ export default {
       loading: true,
       width: 1600,
       height: 230,
+      //初始化背景图插件
       croppa: {},
+      //初始化图片滑动放大缩小inputrang
+      sliderVal: 0,
+      sliderMin: 0,
+      sliderMax: 0,
       backimg: '',
     }
   },
@@ -156,29 +179,43 @@ export default {
     this.loading = false;
   },
   methods: {
+
+    onNewImage () {
+      this.sliderVal = this.croppa.scaleRatio
+      this.sliderMin = this.croppa.scaleRatio / 2
+      this.sliderMax = this.croppa.scaleRatio * 5
+    },
+
+    onSliderChange (evt) {
+      var increment = evt.target.value
+      this.croppa.scaleRatio = +increment
+    },
+
+    onZoom () {
+      // To prevent zooming out of range when using scrolling to zoom
+      // if (this.sliderMax && this.croppa.scaleRatio >= this.sliderMax) {
+      //   this.croppa.scaleRatio = this.sliderMax
+      // } else if (this.sliderMin && this.croppa.scaleRatio <= this.sliderMin) {
+      //   this.croppa.scaleRatio = this.sliderMin
+      // }
+
+      this.sliderVal = this.croppa.scaleRatio
+    },
     upload () {
       if (!this.croppa.hasImage()) {
-        alert('no image to upload')
-        return
+        this.$message({
+          message: '你还没有选择图片 😳',
+          type: 'warning'
+        });
+
+        return false;
       }
 
       this.croppa.generateBlob((blob) => {
-        console.log(blob);
         var fd = new FormData()
         fd.append('file', blob, 'filename.jpg')
-        fd.append('other', 'blahblahblah')
         console.log(fd);
         return false;
-        $.ajax({
-          url: 'http://www.xxx.com/api/upload',
-          data: fd,
-          type: 'POST',
-          processData: false,
-          contentType: false,
-          success: function (data) {
-            alert(data)
-          }
-        })
       })
     }
 

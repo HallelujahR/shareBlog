@@ -63,6 +63,10 @@ $api->version('v1', [
             // 当前登录用户信息
             $api->get('user', 'UsersController@me')
                 ->name('api.user.show');
+
+            // 图片资源
+            $api->post('images', 'ImagesController@store')
+                ->name('api.images.store');
         });
     });
 
@@ -74,6 +78,8 @@ $api->version('v1', [
 	    //获取用户的数据
         $api->get('users/all', 'UsersController@all')
             ->name('api.user.information');
+
+
     });
 
     
