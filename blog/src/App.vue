@@ -57,7 +57,6 @@ export default {
     ]),
   },
   created: function () {
-
     //判断登录的状态
     const verbState = localStorage.getItem('verbState');
     const token = localStorage.getItem('access_token');
@@ -75,7 +74,6 @@ export default {
   },
   mounted: function () {
     setTimeout(() => { this.show = true; }, 100);
-
   },
 
 

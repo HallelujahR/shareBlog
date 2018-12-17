@@ -57,15 +57,15 @@ module.exports = {
     https: false,
     open: true,
     hotOnly: false,
-    proxy:null, // 设置代理
+    proxy: null, // 设置代理
     disableHostCheck: true,
-    before: app => {},
+    before: app => { },
   },
   // PWA 插件相关配置
   pwa: {},
   // 第三方插件配置
   pluginOptions: {
-  // ...
+    // ...
   }
-  
+
 }

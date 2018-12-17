@@ -11,16 +11,26 @@ axios.defaults.baseURL = 'http://api.blog.com'; //填写域名
 axios.interceptors.request.use(
   config => {
 
-    config.headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    };
+
 
     //判断提交上来的方法 题爱奥过来的数据需要序列化才能被后端处理
     if (config.method.toLocaleLowerCase() === 'post'
       || config.method.toLocaleLowerCase() === 'put'
       || config.method.toLocaleLowerCase() === 'delete') {
 
-      config.data = qs.stringify(config.data)
+      if (config.data['image'] != null) {
+
+        // config.headers = {
+        //   'Content-Type': 'multipart/form-data'
+        // };
+
+      } else {
+        config.headers = {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        };
+        config.data = qs.stringify(config.data)
+
+      }
     }
 
     //判断token是否存在

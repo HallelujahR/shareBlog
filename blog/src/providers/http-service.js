@@ -29,6 +29,11 @@ export const server = {
   //获取用户的信息
   getInformation: function (paramObj) {
     return types.fetch('/users/all', paramObj);
+  },
+  //上传图片
+  uploadImg: function (paramObj) {
+    return types.post('/images', paramObj);
   }
+
 };
 

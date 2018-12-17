@@ -21,7 +21,7 @@
               @new-image-drawn="onNewImage"
               @zoom="onZoom"
               remove-button-color="#1DA1F2">
-        <img :src=backimg
+        <img :src='root+    backimg'
              slot="initial">
       </croppa>
 
@@ -31,7 +31,7 @@
           <avatar class="
              headPic"
                   :size="200"
-                  :src=user.avatar
+                  :src='this.root+user.avatar'
                   background-color="#1DA1F2"
                   :username="user.name || '' "></avatar>
 
@@ -131,6 +131,7 @@ export default {
       sliderMin: 0,
       sliderMax: 0,
       backimg: '',
+      root: '',
     }
   },
   computed: {
@@ -177,6 +178,7 @@ export default {
   },
   mounted: function () {
     this.loading = false;
+    this.root = this.$URL;
   },
   methods: {
 
@@ -202,6 +204,8 @@ export default {
       this.sliderVal = this.croppa.scaleRatio
     },
     upload () {
+
+      //判断是否有图片选中
       if (!this.croppa.hasImage()) {
         this.$message({
           message: '你还没有选择图片 😳',
@@ -211,10 +215,29 @@ export default {
         return false;
       }
 
+      //获取到文件 但是是blob 二进制资源
       this.croppa.generateBlob((blob) => {
+
+        //二进制转文件
+        const file = new File([blob], 'backImg', {
+          type: blob.type,
+        });
         var fd = new FormData()
-        fd.append('file', blob, 'filename.jpg')
-        console.log(fd);
+        fd.append('file', file);
+        fd.append('type', 'backgroundImg');
+        let paramsObj = {
+          image: fd,
+          type: 'backgroundImg',
+        }
+        console.log(paramsObj);
+
+        this.$server.uploadImg(paramsObj).then(data => {
+          console.log(data);
+        }).catch(err => {
+          console.log('err', err);
+        })
+
+
         return false;
       })
     }
