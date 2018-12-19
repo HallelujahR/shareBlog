@@ -1,9 +1,15 @@
-<style lang="scss">
-@import "../assets/css/index.scss";
+<style scoped lang="scss">
+@import "@/assets/css/index.scss";
 </style>
+<style>
+body {
+  background: white;
+}
+</style>
+
 <template>
-  <div id="index-body">
-    <div>{{user}}</div>
+  <div id="index-father">
+    <div id="index">{{user}}</div>
   </div>
 </template>
 

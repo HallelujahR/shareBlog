@@ -32,7 +32,11 @@ export const server = {
   },
   //上传图片
   uploadImg: function (paramObj) {
-    return types.post('/images', paramObj);
+    return types.post('/images', paramObj, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+    });
   }
 
 };

@@ -1,6 +1,7 @@
 <style lang="scss">
 body {
   margin: 0 auto;
+  background-color: white;
 }
 .el-header {
   box-shadow: 0px 0px 3px #ccc;
@@ -11,11 +12,9 @@ body {
   background-color: white;
 }
 .el-main {
-  margin-top: 70px;
   padding: 0px !important;
-  width: 1200px;
   margin: 0 auto;
-  margin-top: 70px;
+  margin-top: 50px;
 }
 </style>
 <template>

@@ -21,7 +21,7 @@ class ImageRequest extends FormRequest
         if ($this->type == 'avatar') {
             $rules['image'] = 'required|mimes:jpeg,jpg,bmp,png,gif';
         } else if($this->type == 'backgroundImg') {
-            $rules['image'] = 'required|mimes:jpeg,jpg,bmp,png,gif';
+//            $rules['image'] = 'required|image';
         } else if($this->type == 'topic') {
 
         } else if($this->type == 'photo') {

@@ -68,7 +68,7 @@
                  v-else>
       <span class="el-dropdown-link">
         <avatar class="headImg"
-                :src=user.avatar
+                :src='this.root+user.avatar'
                 :size="40"
                 background-color="#1DA1F2"
                 :username="user.name || '' "></avatar>
@@ -118,6 +118,7 @@ export default {
       search: '',
       route: '',
       input6: '',
+      root: '',
     }
   },
   computed: {
@@ -130,6 +131,7 @@ export default {
   mounted: function () {
     // 根据路径变更颜色
     setTimeout(() => { this.route = this.$route.path }, 100);
+    this.root = this.$URL;
   },
   methods: {
     ...mapMutations({

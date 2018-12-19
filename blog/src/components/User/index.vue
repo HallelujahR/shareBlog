@@ -1,6 +1,12 @@
-<style scpoed lang="scss">
-@import "../../assets/css/user.scss";
+<style scoped lang="scss">
+@import "@/assets/css/user.scss";
 </style>
+<style>
+body {
+  background-color: #e6ecf0;
+}
+</style>
+
 
 <template>
   <div id="user"
@@ -14,6 +20,7 @@
               placeholder="选择背景图片"
               :placeholder-font-size="30"
               :disabled="false"
+              accept="image/png,image/jpeg,image/jpg,image/gif"
               :prevent-white-space="true"
               :disable-scroll-to-zoom="true"
               disable-click-to-choose
@@ -21,8 +28,13 @@
               @new-image-drawn="onNewImage"
               @zoom="onZoom"
               remove-button-color="#1DA1F2">
-        <img :src='root+    backimg'
+        <img crossOrigin="anonymous"
+             :src='root+detail.backgroundImg'
              slot="initial">
+        <el-button round
+                   id="alterImg"
+                   @click="alterImg()"
+                   style="">编辑图片</el-button>
       </croppa>
 
       <div id="user-head-foot">
@@ -34,41 +46,51 @@
                   :src='this.root+user.avatar'
                   background-color="#1DA1F2"
                   :username="user.name || '' "></avatar>
+          <transition mode="out-in"
+                      name="slide-fade">
+            <div v-if="alterImgFlag"
+                 key="usernav"
+                 id="user-head-foot-nav">
 
-          <div id="user-head-foot-nav">
+              <div class="foot-nav-list">
+                <i class="el-icon-edit-outline"></i>
+                写的文章
+              </div>
+              <div class="foot-nav-list">
+                <i class="el-icon-picture"></i>
+                拍的照片
+              </div>
+              <div class="foot-nav-list">
+                <i class="el-icon-picture"></i>
+                关注了
+              </div>
+              <div class="foot-nav-list">
+                <i class="el-icon-picture"></i>
+                关注者
+              </div>
 
-            <div class="foot-nav-list">
-              <i class="el-icon-edit-outline"></i>
-              写的文章
-            </div>
-            <div class="foot-nav-list">
-              <i class="el-icon-picture"></i>
-              拍的照片
-            </div>
-            <div class="foot-nav-list">
-              <i class="el-icon-picture"></i>
-              关注了
-            </div>
-            <div class="foot-nav-list">
-              <i class="el-icon-picture"></i>
-              关注者
-            </div>
-            <input type="range"
-                   @input="onSliderChange"
-                   :min="sliderMin"
-                   :max="sliderMax"
-                   step=".001"
-                   v-model="sliderVal">
-            <button @click="croppa.chooseFile()">CHOOSE FILE...</button>
-            <button @click="upload">UPLOAD</button>
-            <router-link to="/alterDetail"
-                         id="edit-information-btn"
-                         v-if="verbState && self.id == user.id">编辑个人资料</router-link>
+              <router-link to="/alterDetail"
+                           id="edit-information-btn"
+                           v-if="verbState && self.id == user.id">编辑个人资料</router-link>
 
+              <div v-else
+                   id="follow-btn">关注</div>
+
+            </div>
             <div v-else
-                 id="follow-btn">关注</div>
-
-          </div>
+                 id="user-head-foot-nav"
+                 key="img">
+              <input type="range"
+                     @input="onSliderChange"
+                     :min="sliderMin"
+                     :max="sliderMax"
+                     step=".001"
+                     v-model="sliderVal">
+              <button @click="croppa.chooseFile()">CHOOSE FILE...</button>
+              <button @click="croppa.remove()">REMOVE</button>
+              <button @click="upload">UPLOAD</button>
+            </div>
+          </transition>
         </div>
       </div>
     </div>
@@ -132,6 +154,7 @@ export default {
       sliderMax: 0,
       backimg: '',
       root: '',
+      alterImgFlag: true,
     }
   },
   computed: {
@@ -181,7 +204,12 @@ export default {
     this.root = this.$URL;
   },
   methods: {
-
+    onFileTypeMismatch () {
+      this.$message({
+        message: '文件格式不对呦 😳',
+        type: 'warning',
+      })
+    },
     onNewImage () {
       this.sliderVal = this.croppa.scaleRatio
       this.sliderMin = this.croppa.scaleRatio / 2
@@ -217,21 +245,17 @@ export default {
 
       //获取到文件 但是是blob 二进制资源
       this.croppa.generateBlob((blob) => {
-
+        console.log('bb', blob);
         //二进制转文件
         const file = new File([blob], 'backImg', {
-          type: blob.type,
+          type: 'image/jpeg',
         });
         var fd = new FormData()
-        fd.append('file', file);
+        fd.append('image', file);
         fd.append('type', 'backgroundImg');
-        let paramsObj = {
-          image: fd,
-          type: 'backgroundImg',
-        }
-        console.log(paramsObj);
 
-        this.$server.uploadImg(paramsObj).then(data => {
+        console.log('im', fd.get('image'));
+        this.$server.uploadImg(fd).then(data => {
           console.log(data);
         }).catch(err => {
           console.log('err', err);
@@ -240,6 +264,9 @@ export default {
 
         return false;
       })
+    },
+    alterImg () {
+      this.alterImgFlag = !this.alterImgFlag;
     }
 
   }

@@ -129,12 +129,10 @@ export default {
 
 
         if (valid) {
-
           let paramObj = {
             username: this.ruleForm.account,
             password: this.ruleForm.password,
           };
-          // console.log(this.$server);
           this.$server.login(paramObj).then(data => {
             // console.log(data);
             //用户的token

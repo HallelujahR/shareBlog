@@ -15,16 +15,19 @@ class ImagesController extends Controller
     public function store(ImageRequest $request, Image $image)
     {
 
+
+
         $user = $this->user();
 
-        //判断上传的是头像还是背景图片
+        //判断上传的是头像还是背景
         if($request->type == 'backgroundImg'){
 
             //获取用户的数据
             $userPath = user_detail::where('uid','=',$user->id)->first()['backgroundImg'];
 
-            //判断图片是否存在 存的的话删除
-            if($userPath != null || $userPath != '') {
+            //判断图片是否存在  用上面的方法打印你的文件大小
+            if($userPath != null) {
+
                 unlink(public_path().$userPath);
             }
 
@@ -37,8 +40,7 @@ class ImagesController extends Controller
 //            $image->path = '/uploads/'.$path;
 //            $image->type = $request->type;
 //            $image->user_id = $user->id;
-//            $image->save();
-
+//            $image->save()；
             return $detail;
         } else if($request->type == 'avatar'){
 
