@@ -1,9 +1,10 @@
-<style lang="scss">
+<style scoped lang="scss">
+@import "@/assets/css/user/alterDetail.scss";
 </style>
 
 <template>
-  <div>
-
+  <div id="alterDetail">
+    sf
   </div>
 </template>
 

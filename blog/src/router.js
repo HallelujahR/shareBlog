@@ -25,11 +25,13 @@ export default new Router({
       path: '/user/:id',
       name: 'user',
       component: () => import('./components/User/index.vue'),
-    },
-    {
-      path: '/alterDetail',
-      name: 'alterDetail',
-      component: () => import('./components/User/alterDetail.vue'),
+      children: [
+        {
+          path: 'alterDetail',
+          name: 'alterDetail',
+          component: () => import('./components/User/alterDetail.vue'),
+        }
+      ]
     },
     {
       path: '/article',

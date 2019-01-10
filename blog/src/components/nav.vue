@@ -68,7 +68,7 @@
                  v-else>
       <span class="el-dropdown-link">
         <avatar class="headImg"
-                :src='this.root+user.avatar'
+                :src="user.avatar ?this.root+user.avatar :'' "
                 :size="40"
                 background-color="#1DA1F2"
                 :username="user.name || '' "></avatar>
@@ -99,6 +99,15 @@
           <i class="el-icon-message
 "></i>
           私信消息</el-dropdown-item>
+
+        <router-link class="user-link"
+                     :to="{ name: 'alterDetail', params: { id: user.id }}">
+          <el-dropdown-item>
+            <i class="el-icon-setting"></i>
+            编辑资料
+          </el-dropdown-item>
+        </router-link>
+
         <el-dropdown-item command="logout">
           <i class="el-icon-circle-close-outline"
              style="margin-right:5px;"></i>退出</el-dropdown-item>

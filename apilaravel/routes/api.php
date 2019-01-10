@@ -69,8 +69,12 @@ $api->version('v1', [
                 ->name('api.user.update');
 
             // 图片资源
+            // 创建图片
             $api->post('images', 'ImagesController@store')
                 ->name('api.images.store');
+            // 删除图片
+            $api->patch('images/delete','ImagesController@delete')
+                ->name('api.images.delete');
         });
     });
 

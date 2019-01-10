@@ -43,9 +43,10 @@ $font-left-color:#657786;
     background-color: rgba(0, 0, 0, 0.3);
     color: #ccc;
     &:hover {
-      background-color: rgb(36, 155, 202);
+      background-color: rgba(73, 163, 235, 0.7);
       transition: all 0.3s;
-      border: 1px solid #ccc;
+      color: white;
+      border: 1px solid white;
     }
   }
 }
@@ -70,6 +71,16 @@ $font-left-color:#657786;
       bottom: -15px;
       left: 0px;
     }
+    .HeadPicSpan {
+      display: block;
+      height: 208px;
+      width: 208px;
+      margin-top: -140px;
+      border-radius: 50%;
+    }
+  }
+  #changeAvatar {
+    border: 1px solid red;
   }
   #user-head-foot-nav {
     height: 100%;
@@ -107,6 +118,18 @@ $font-left-color:#657786;
     #follow-btn {
       @extend #edit-information-btn;
       padding: 0px 20px 0px 20px;
+    }
+  }
+  #user-head-foot-nav-alterImg {
+    @extend #user-head-foot-nav;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    #range {
+      margin: 0px 30px 0px 30px;
+    }
+    .user-head-foot-nav-alterImg_btn {
+      height: 40px;
     }
   }
 }
@@ -156,5 +179,11 @@ $font-left-color:#657786;
   {
   transform: translateX(-100px);
   opacity: 0;
-  transition: all .7s ease;
+  transition: all .4s ease;
+}
+
+//更改头像
+.changeAvatar {
+  background-color: $font-blue;
+  border-radius: 50%;
 }

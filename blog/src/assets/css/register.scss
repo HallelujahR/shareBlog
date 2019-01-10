@@ -1,53 +1,53 @@
-#register-body{
+#register-body {
   display: flex;
-  justify-content:center;
-  align-items:Center;
-  height:75vh;
+  justify-content: center;
+  align-items: Center;
+  height: 75vh;
+  width: 75vw;
 }
-#register{
-	height:auto;
-  width:35%;
-  padding-left:20px;
-  box-shadow:0px 0px 5px #CCC;
-  padding:20px 30px 20px 30px;
-  border-radius:5px;
+
+#register {
+  height: auto;
+  width: 35%;
+  padding-left: 20px;
+  box-shadow: 0px 0px 5px #CCC;
+  padding: 20px 30px 20px 30px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
-  #registerLogo{
-    margin-bottom:20px;
+  #registerLogo {
+    margin-bottom: 20px;
   }
 }
 
-#register-ds{
-  margin-top:20px;
+#register-ds {
+  margin-top: 20px;
   height: 100px;
-  #register-title{
-    text-align:center;
-    color:#909399;
-    font-size:14px;
-    opacity:0.7;
-    
-  }
-
-  #register-in{
+  #register-title {
     text-align: center;
-    margin-top:20px;
-    img{
-      margin-right:20px;
+    color: #909399;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+  #register-in {
+    text-align: center;
+    margin-top: 20px;
+    img {
+      margin-right: 20px;
     }
   }
 }
 
-.register{
-  text-align:right;
-  width:100%;
-  a{
-    color:#909399;
-    font-size:14px;
+.register {
+  text-align: right;
+  width: 100%;
+  a {
+    color: #909399;
+    font-size: 14px;
     text-decoration: none;
-    &:hover{
-      color:#1DA1F2;
-      transition:all 0.4s;
+    &:hover {
+      color: #1DA1F2;
+      transition: all 0.4s;
       cursor: pointer;
     }
   }
@@ -56,11 +56,16 @@
 .slide-fade-enter-active {
   transition: all 1.5s ease;
 }
+
 .slide-fade-leave-active {
   transition: all 2s cubic-bezier(1.0, 0.5, 1.0);
 }
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active for below version 2.1.8 */ {
+
+.slide-fade-enter,
+.slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */
+
+  {
   transform: translateX(70px);
   opacity: 0;
 }

@@ -41,7 +41,7 @@ class ImagesController extends Controller
 //            $image->type = $request->type;
 //            $image->user_id = $user->id;
 //            $image->save()；
-            return $detail;
+            return $path;
         } else if($request->type == 'avatar'){
 
             //判断图片是否存在 存的的话删除
@@ -57,6 +57,21 @@ class ImagesController extends Controller
             return $user;
         }
 
-        return $this->response->item($image, new ImageTransformer())->setStatusCode(201);
+    }
+
+    //删除图片
+    public function delete(Request $request){
+        $user = $this->user();
+
+        if($request->type == 'backgroundImg'){
+            $path = user_detail::where('uid','=',$user->id)->first()['backgroundImg'];
+            if($path){
+                unlink(public_path().$path);
+                return user_detail::where('uid','=',$user->id)->update(['backgroundImg'=>null]);
+            }else{
+                return '2';
+            }
+
+        }
     }
 }

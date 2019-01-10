@@ -37,6 +37,10 @@ export const server = {
         'Content-Type': 'multipart/form-data'
       },
     });
+  },
+  //删除图片
+  deleteImg: function (paramObj) {
+    return types.patch('/images/delete', paramObj);
   }
 
 };
