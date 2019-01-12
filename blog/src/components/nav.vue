@@ -68,7 +68,7 @@
                  v-else>
       <span class="el-dropdown-link">
         <avatar class="headImg"
-                :src="user.avatar ?this.root+user.avatar :'' "
+                :src="user.avatar ? this.root+user.avatar :'' "
                 :size="40"
                 background-color="#1DA1F2"
                 :username="user.name || '' "></avatar>
@@ -80,8 +80,7 @@
             <i class="el-icon-info"></i>
             {{user.name}}
             <div><i style="margin-right:5px;"
-                 class="el-icon-mobile-phone
-"></i>{{user.phone}}</div>
+                 class="el-icon-mobile-phone"></i>{{user.phone}}</div>
 
           </el-dropdown-item>
         </router-link>

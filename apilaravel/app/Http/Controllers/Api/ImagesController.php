@@ -54,7 +54,11 @@ class ImagesController extends Controller
             //查询出用户表的信息更改背景图片的路径
             $user = User::where('id','=',$user->id)->update(['avatar'=>$path]);
 
-            return $user;
+            if($user){
+                return $path;
+            }else{
+                return '2';
+            }
         }
 
     }
@@ -72,6 +76,15 @@ class ImagesController extends Controller
                 return '2';
             }
 
+        }elseif($request->type == 'avatar'){
+
+            $path = User::where('id',$user->id)->first()['avatar'];
+            if($path){
+                unlink(public_path().$path);
+                return User::where('id',$user->id)->update(['avatar'=>'']);
+            }else{
+                return '2';
+            }
         }
     }
 }

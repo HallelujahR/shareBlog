@@ -71,11 +71,11 @@
                 拍的照片
               </div>
               <div class="foot-nav-list">
-                <i class="el-icon-picture"></i>
+                <!-- <i class="el-icon-view"></i> -->
                 关注了
               </div>
               <div class="foot-nav-list">
-                <i class="el-icon-picture"></i>
+                <!-- <i class="el-icon-picture"></i> -->
                 关注者
               </div>
               <span v-if="alterDetail">
@@ -180,64 +180,64 @@
                :visible.sync="centerDialogVisible"
                width="40%"
                center>
-      <croppa class="user-backgroundImg changeAvatar"
-              v-bind:style="cursorFlag ? 'cursor:move' : 'cursor:default'"
-              v-model="croppa"
-              :width=208
-              :height=208
-              placeholder="Avatar 😎"
-              placeholder-color="white"
-              :placeholder-font-size="30"
-              :disabled="false"
-              accept="image/png,image/jpeg,image/jpg,image/gif"
-              :prevent-white-space="true"
-              :disable-scroll-to-zoom="true"
-              disable-click-to-choose
-              :show-remove-button="false"
-              @new-image-drawn="onNewImage"
-              @init="onInit"
-              @zoom="onZoom">
-        <img crossOrigin="anonymous"
-             :width=width
-             :src="user.avatar ? root+user.avatar : ''"
-             slot="initial">
-      </croppa>
-      <div>
-        <input class="user-head-foot-nav-alterImg_btn"
-               type="range"
-               id="range"
-               @input="onSliderChange"
-               :min="sliderMin"
-               :max="sliderMax"
-               step=".001"
-               v-model="sliderVal">
-        <el-button @click="croppa.chooseFile()"
-                   class="user-head-foot-nav-alterImg_btn"
-                   round
-                   plain>选择背景</el-button>
-        <el-button type="primary"
-                   class="user-head-foot-nav-alterImg_btn"
-                   round
-                   @click="upload"
-                   plain>保存</el-button>
-        <el-button type="info"
-                   class="user-head-foot-nav-alterImg_btn"
-                   @click="centerDialogVisible = false"
-                   round>取消</el-button>
-        <el-button type="danger"
-                   class="user-head-foot-nav-alterImg_btn"
-                   @click="removeBackgroundImg()"
-                   icon="el-icon-delete"
-                   circle></el-button>
-      </div>
-
+      <center>
+        <croppa class="user-backgroundImg changeAvatar"
+                v-model="croppa"
+                :width=208
+                :height=208
+                placeholder="Avatar 😎"
+                placeholder-color="white"
+                :placeholder-font-size="30"
+                :disabled="false"
+                accept="image/png,image/jpeg,image/jpg,image/gif"
+                :prevent-white-space="true"
+                :disable-scroll-to-zoom="true"
+                disable-click-to-choose
+                :show-remove-button="false"
+                @new-image-drawn="onNewImage"
+                @init="onInit"
+                @zoom="onZoom">
+          <img crossOrigin="anonymous"
+               :width=width
+               :src="user.avatar ? root+user.avatar : ''"
+               slot="initial">
+        </croppa>
+        <div id="changeAvatarBtn">
+          <el-button @click="croppa.chooseFile()"
+                     class="user-head-foot-nav-alterImg_btn"
+                     round
+                     plain>选择图片</el-button>
+          <input class="user-head-foot-nav-alterImg_btn"
+                 type="range"
+                 id="range"
+                 @input="onSliderChange"
+                 :min="sliderMin"
+                 :max="sliderMax"
+                 step=".001"
+                 v-model="sliderVal">
+          <el-button type="primary"
+                     class="user-head-foot-nav-alterImg_btn"
+                     round
+                     @click="uploadAvatar"
+                     plain>保存</el-button>
+          <el-button type="info"
+                     class="user-head-foot-nav-alterImg_btn"
+                     @click="centerDialogVisible = false, noEditAvatar()"
+                     round>取消</el-button>
+          <el-button type="danger"
+                     class="user-head-foot-nav-alterImg_btn"
+                     @click="removeAvatarImg()"
+                     icon="el-icon-delete"
+                     circle></el-button>
+        </div>
+      </center>
     </el-dialog>
     <!-- 更改头像end -->
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -258,7 +258,7 @@ export default {
       freshFlag: false,//判断是否上传过图片
       alterDetail: true,//跳转到编辑个人资料开关
       cursorFlag: false,//控制鼠标在背景图上的样式
-      centerDialogVisible: true,//修改头像的对话框控制
+      centerDialogVisible: false,//修改头像的对话框控制
     }
   },
   computed: {
@@ -267,7 +267,6 @@ export default {
       'token',//登录的用户的token
       'self',//获取当前登录的用户信息
     ]),
-
   },
   created: function () {
 
@@ -311,6 +310,9 @@ export default {
     if (this.$route.path.endsWith('alterDetail')) this.alterDetail = !this.alterDetail;
   },
   methods: {
+    ...mapMutations({
+      setuser: 'SET_USER',
+    }),
     onFileTypeMismatch () {
       this.$message({
         message: '文件格式不对呦 😳',
@@ -432,6 +434,7 @@ export default {
     alterDetails () {
       this.alterDetail = !this.alterDetail;
     },
+    //更改头像的croppa 更改为圆圈
     onInit () {
       this.croppa.addClipPlugin(function (ctx, x, y, w, h) {
         /*
@@ -441,11 +444,111 @@ export default {
          * w: croppa width
          * h: croppa height
         */
-        console.log(x, y, w, h)
+
         ctx.beginPath()
         ctx.arc(x + w / 2, y + h / 2, w / 2, 0, 2 * Math.PI, true)
         ctx.closePath()
       })
+    },
+    //上传头像的方法
+    uploadAvatar () {
+
+      //判断是否有图片选中
+      if (!this.croppa.hasImage()) {
+        this.$message({
+          message: '你还没有选择图片 😳',
+          type: 'warning'
+        });
+
+        return false;
+      }
+
+      //获取到文件 但是是blob 二进制资源
+      this.croppa.generateBlob((blob) => {
+        //二进制转文件
+        const file = new File([blob], 'backImg', {
+          type: 'image/jpeg',
+        });
+        var fd = new FormData()
+        fd.append('image', file);
+        fd.append('type', 'avatar');
+
+        //发送axios更改图片
+        this.$server.uploadImg(fd).then(data => {
+
+          if (data == 2) {
+            //上传失败提示
+            this.$message({
+              type: 'success',
+              message: '上传失败 😓'
+            });
+            return false;
+          }
+          //上传成功提示
+          this.$message({
+            type: 'success',
+            message: '上传成功 😊'
+          });
+
+          //更改默认图片路径
+          this.user.avatar = data;
+          this.setuser(this.user);
+        }).catch(err => {
+          // eslint-disable-next-line no-console
+          console.log('err', err);
+        })
+        return false;
+      })
+    },
+    //点击取消修改头像按钮
+    noEditAvatar () {
+      this.croppa.refresh();
+    },
+    //移除头像
+    removeAvatarImg () {
+      this.$confirm('移除背景头像, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+
+        //参数
+        let paramsObj = {
+          type: 'avatar',
+        }
+        //发送axios 删除图片
+        this.$server.deleteImg(paramsObj).then(data => {
+          if (data == 2) {
+            this.$message({
+              type: 'warning',
+              message: '还没有头像 😓'
+            });
+            return false;
+          }
+          //更改默认图片路径
+          this.user.avatar = '';
+          //触发插件移除
+          this.croppa.remove();
+          //成功提示
+          this.$message({
+            type: 'success',
+            message: '移除成功!'
+          });
+          this.user.avatar = '';
+          this.setuser(this.user);
+          this.centerDialogVisible = !this.centerDialogVisible;//修改头像的对话框控制
+
+        }).catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err)
+        })
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });
+      });
     }
   }
 }
