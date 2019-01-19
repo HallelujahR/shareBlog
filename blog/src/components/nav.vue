@@ -114,7 +114,8 @@
              style="margin-right:5px;"></i>退出</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <el-dropdown class="publish">
+    <el-dropdown class="publish"
+                 v-if="verbState">
       <span class="el-dropdown-link">
         <i class="el-icon-arrow-down el-icon-circle-plus
 "></i>
