@@ -25,7 +25,13 @@ export default new Router({
       path: '/user/:id',
       name: 'user',
       component: () => import('./components/User/index.vue'),
+      redirect: '/user/:id',//设置redirect属性为对应子路由路径即转发到默认的子路由路径
       children: [
+        {
+          path: '/user/:id',
+          name: 'this',
+          component: () => import('./components/User/main.vue'),
+        },
         {
           path: 'alterDetail',
           name: 'alterDetail',

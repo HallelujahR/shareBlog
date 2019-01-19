@@ -66,15 +66,18 @@ class UsersController extends Controller
     {
         $user = $this->user();
 
-        $attributes = $request->only(['name', 'email', 'introduction']);
+        $user->update($request->only('introduction','name'));//修改user表的基础信息
 
-        if ($request->avatar_image_id) {
-            $image = Image::find($request->avatar_image_id);
+        $detail = user_detail::find($user->id)->update($request->only(['web','education','occupation']));//修改detail表的信息
 
-            $attributes['avatar'] = $image->path;
+        if(!$detail){
+            return $this->response->setStatusCode(505);
         }
-        $user->update($attributes);
 
         return $this->response->item($user, new UserTransformer());
+
     }
+
+
 }
+

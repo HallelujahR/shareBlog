@@ -41,6 +41,10 @@ export const server = {
   //删除图片
   deleteImg: function (paramObj) {
     return types.patch('/images/delete', paramObj);
+  },
+  //编辑个人资料哦
+  editDetail: function (paramObj) {
+    return types.patch('/user', paramObj);
   }
 
 };

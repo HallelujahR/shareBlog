@@ -199,17 +199,14 @@ export default {
     setTimeout(function () { this.Loading = false; }.bind(this), 200);
 
   },
-  computed: {
-    ...mapActions([
-      'setUser',
-    ]),
-  },
   methods: {
     ...mapMutations({
       setverbState: 'SET_VERBSTATE',
       setToken: 'SET_TOKEN',
     }),
-
+    ...mapActions([
+      'setUser',
+    ]),
     register () {
       this.$emit('log', true);
     },

@@ -65,14 +65,16 @@
 
     <el-dropdown class="select"
                  @command="handleCommand"
-                 v-else>
+                 v-if="verbState">
       <span class="el-dropdown-link">
         <avatar class="headImg"
                 :src="user.avatar ? this.root+user.avatar :'' "
                 :size="40"
                 background-color="#1DA1F2"
                 :username="user.name || '' "></avatar>
+
       </span>
+
       <el-dropdown-menu slot="dropdown">
         <router-link class="user-link username"
                      :to="{ name: 'user', params: { id: user.id }}">
@@ -110,6 +112,28 @@
         <el-dropdown-item command="logout">
           <i class="el-icon-circle-close-outline"
              style="margin-right:5px;"></i>退出</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+    <el-dropdown class="publish">
+      <span class="el-dropdown-link">
+        <i class="el-icon-arrow-down el-icon-circle-plus
+"></i>
+      </span>
+
+      <el-dropdown-menu slot="dropdown">
+        <router-link class="user-link"
+                     :to="{ name: 'user', params: { id: user.id }}">
+          <el-dropdown-item>
+            <i class="el-icon-edit"></i> 发表文章
+          </el-dropdown-item>
+        </router-link>
+
+        <router-link class="user-link"
+                     :to="{ name: 'user', params: { id: user.id }}">
+          <el-dropdown-item>
+            <i class="el-icon-picture-outline"></i> 发布照片</el-dropdown-item>
+        </router-link>
+
       </el-dropdown-menu>
     </el-dropdown>
   </div>

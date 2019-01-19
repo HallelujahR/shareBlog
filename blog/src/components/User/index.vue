@@ -35,7 +35,8 @@
                    style="">编辑图片</el-button>
       </croppa>
 
-      <div id="user-head-foot">
+      <div id="user-head-foot"
+           v-bind:style="{ width: width+'px'}">
 
         <div id="user-head-foot-main">
 
@@ -133,46 +134,7 @@
     </div>
     <transition mode="out-in"
                 name="slide-fade">
-      <div id="main-user"
-           v-if="alterDetail">
-        <div id="main-user-left">
-
-          <div id="user-name">
-            {{user.name}}
-          </div>
-
-          <div class="user-web"
-               v-if="detail.web">
-            个性站点： <a :href="detail.web">{{detail.web}}</a>
-          </div>
-
-          <div class="user-detail"
-               v-if="user.introduction"> 一句话：{{user.introduction}} </div>
-          <div class=""
-               v-else>
-            一句话：这个人很懒～还什么都没有留下～
-          </div>
-
-          <div class="user-detail"
-               v-if="detail.occupation">
-            职业经历: <span class="udr-line">{{detail.occupation}}</span> </div>
-          <div class="user-detail"
-               v-if="detail.education">
-            教育经历: <span class="udr-line">{{detail.education}}</span>
-          </div>
-          <div class="user-detail"
-               v-if="detail.hobby">
-            爱好: <span class="udr-line">{{detail.hobby}}</span>
-          </div>
-        </div>
-
-        <div id="main-user-right">
-
-        </div>
-
-      </div>
-
-      <router-view v-else></router-view>
+      <router-view></router-view>
     </transition>
 
     <!-- 更改头像start -->
@@ -268,6 +230,13 @@ export default {
       'self',//获取当前登录的用户信息
     ]),
   },
+  //监听路由变化
+  watch: {
+    $route () {
+      //获取网页url判断是否在更改详情页面
+      if (this.$route.path.endsWith('alterDetail')) this.alterDetail = false;
+    }
+  },
   created: function () {
 
     //获取浏览器窗口的宽度 然后赋值给背景图片宽度
@@ -307,7 +276,7 @@ export default {
     //api地址
     this.root = this.$URL;
     //获取网页url判断是否在更改详情页面
-    if (this.$route.path.endsWith('alterDetail')) this.alterDetail = !this.alterDetail;
+    if (this.$route.path.endsWith('alterDetail')) this.alterDetail = false;
   },
   methods: {
     ...mapMutations({
@@ -493,6 +462,7 @@ export default {
           //更改默认图片路径
           this.user.avatar = data;
           this.setuser(this.user);
+          this.centerDialogVisible = false;//修改头像的对话框控制
         }).catch(err => {
           // eslint-disable-next-line no-console
           console.log('err', err);
@@ -536,7 +506,7 @@ export default {
           });
           this.user.avatar = '';
           this.setuser(this.user);
-          this.centerDialogVisible = !this.centerDialogVisible;//修改头像的对话框控制
+
 
         }).catch(err => {
           // eslint-disable-next-line no-console
