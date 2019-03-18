@@ -40,16 +40,15 @@
         <el-input v-model="ruleForm.occupation"
                   placeholder="职业"></el-input>
       </el-form-item>
-      <el-form-item label="爱好"
+      <el-form-item label="标签"
                     prop="hobby">
-        <!-- <el-input v-model="ruleForm.hobby"
-                  placeholder="爱好，如电竞，摄影，写作"></el-input> -->
-        <el-tag :key="tag"
-                v-for="tag in dynamicTags"
+
+        <el-tag :key="index"
+                :value="tag"
+                v-for="(tag,index) in dynamicTags"
                 closable
-                style="margin-right:10px"
                 :disable-transitions="false"
-                @close="handleClose(tag)">
+                @close="handleClose(tag,inidex)">
           {{tag}}
         </el-tag>
         <el-input class="input-new-tag"
@@ -60,10 +59,64 @@
                   @keyup.enter.native="handleInputConfirm"
                   @blur="handleInputConfirm">
         </el-input>
-        <el-button v-else
-                   class="button-new-tag"
-                   size="small"
-                   @click="showInput">添加爱好</el-button>
+        <el-button type="text"
+                   style="margin-left:10px;"
+                   @click="dialogVisible = true,clearTopic()">+添加标签</el-button>
+        <!-- 弹出层 添加标签start -->
+        <el-dialog title="添加标签"
+                   :visible.sync="dialogVisible"
+                   width="40%">
+          <el-select v-model="defaultTopic"
+                     style="width:90%;"
+                     multiple
+                     filterable
+                     placeholder="请选择">
+            <el-option v-for="item in options"
+                       :key="item.id"
+                       :label="item.name"
+                       :value="item.id">
+            </el-option>
+          </el-select>
+          <el-button type="text"
+                     @click="topicAdd()">没找到想要的？点击此处创建一个标签</el-button>
+          <span slot="footer"
+                class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary"
+                       @click="dialogVisible = false,addPersonalTopic()">确 定</el-button>
+          </span>
+          <!-- 内层签到弹出层 创建标签 start -->
+          <el-dialog width="30%"
+                     title="创建标签"
+                     :visible.sync="innerVisible"
+                     append-to-body>
+            <el-form :model="topicForm"
+                     :rules="topicRules"
+                     ref="topicForm"
+                     label-width="100px"
+                     class="demo-ruleForm">
+              <el-form-item label="标签名称"
+                            prop="name">
+                <el-input v-model="topicForm.name"></el-input>
+              </el-form-item>
+              <el-form-item label="标签描述"
+                            row="6"
+                            prop="description">
+                <el-input type="textarea"
+                          v-model="topicForm.description"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary"
+                           @click="subTopicForm('topicForm')">立即创建</el-button>
+                <el-button @click="resTopicForm('topicForm')">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </el-dialog>
+          <!-- 内层签到弹出层 创建标签 end -->
+        </el-dialog>
+
+        <!-- 添加标签 end -->
+
       </el-form-item>
 
       <el-form-item label="个人站点"
@@ -79,6 +132,7 @@
       </el-form-item>
     </el-form>
   </div>
+
 </template>
 
 
@@ -87,10 +141,13 @@ import { mapActions } from 'vuex';
 export default {
   data () {
     return {
-      dynamicTags: ['篮球', '摄影', '看书'],// 爱好标签
+      //话题 标签 相关
+      dynamicTags: [],// 爱好标签
+      options: null,
+      defaultTopic: [],
       inputVisible: false,
       inputValue: '',
-
+      innerVisible: false,//topic 嵌套内层div
       detail: {},
       labelPosition: 'left',//form表单对齐方式
 
@@ -106,6 +163,7 @@ export default {
 
       },
 
+      dialogVisible: false,//控制弹出层
       rules: {
         name: [
           { required: true, message: '请填写昵称', trigger: 'blur' },
@@ -125,13 +183,28 @@ export default {
         ],
         web: [
           { pattern: /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\\/])+$/, message: '网站格式不正确', trigger: 'blur' }
-        ]
+        ],
 
-      }
+      },
+      topicForm: {
+        name: '',//标签名
+        description: '', //标签描述
+      },
+      topicRules: {
+        name: [
+          { required: true, message: '请填写名称', trigger: 'blur' },
+          { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '请填写标签介绍', trigger: 'blur' },
+          { min: 1, max: 140, message: '长度在 1 到 140 个字符', trigger: 'blur' }
+        ],
+      },
     }
   },
   mounted () {
     this.loading = false;
+
   },
   computed: {
 
@@ -150,10 +223,12 @@ export default {
       this.user = data;
       //获取到用户的详细信息
       //把获取到的相信信息更新到当前页面
+      data.user_detail = Object.assign(data, data.user_detail);
       this.ruleForm = data.user_detail;
-      this.ruleForm['name'] = data.name;
-      this.ruleForm['phone'] = data.phone;
-      this.ruleForm['introduction'] = data.introduction;
+
+      // this.ruleForm['name'] = data.name;
+      // this.ruleForm['phone'] = data.phone;
+      // this.ruleForm['introduction'] = data.introduction;
 
     }).catch(err => {
       // eslint-disable-next-line no-console
@@ -195,7 +270,12 @@ export default {
           })
 
         } else {
-          alert('error submit!!');
+          //提示信息
+          this.$message({
+            type: 'warning',
+            message: '修改失败,带有 * 为必填项'
+          });
+
           return false;
         }
       });
@@ -203,28 +283,103 @@ export default {
     resetForm (formName) {
       //重制表单
       this.$refs[formName].resetFields();
-    },
-    //爱好 标签的相关操作
-    handleClose (tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-    },
 
-    //添加爱好的相关操作
-    showInput () {
-      this.inputVisible = true;
-      this.$nextTick(() => {
-        this.$refs.saveTagInput.$refs.input.focus();
+    },
+    //话题标签
+    //删除标签触发
+    handleClose (tag) {
+      alert(tag);
+      this.$confirm('您将移除此标签', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
+    },
+    //创建标签提交按钮
+    subTopicForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let paramObj = this.topicForm;
+          this.$server.storeTopic(paramObj).then(data => {
+            this.innerVisible = false;
+            //合并数组
+            this.options = this.options.concat(data);
+            console.log(this.options);
+            console.log(data);
+          }).catch(err => {
+            console.log(err);
+            //提示信息
+            this.$message({
+              type: 'warning',
+              message: '添加失败，标签已存在'
+            });
+          });
+
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
       });
     },
-    //添加爱好的相关操作
-    handleInputConfirm () {
-      let inputValue = this.inputValue;
-      if (inputValue) {
-        this.dynamicTags.push(inputValue);
-      }
-      this.inputVisible = false;
-      this.inputValue = '';
-    }
+    //点击“没找到想要的”触发
+    topicAdd () {
+      console.log(this.dynamicTags);
+      this.innerVisible = true;
+
+    },
+    //创建标签重制按钮
+    resTopicForm (formName) {
+      this.$refs[formName].resetFields();
+    },
+    //数组去重 用户已有的标签不会出现在选项当中
+    clearTopic () {
+      // 获取个性标签
+      this.$server.allTopic().then(data => {
+        this.options = data.data;
+        for (let a = 0; a < this.options.length; a++) {
+          for (let i = 0; i < this.dynamicTags.length; i++) {
+            if (this.options[a].name == this.dynamicTags[i]) {
+              this.options.splice(a, 1);
+            }
+          }
+        }
+
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+    //点击确定增加个人标签
+    addPersonalTopic () {
+      let paramObj = this.defaultTopic;
+      this.$server.addTopic(paramObj).then(data => {
+        if (data == 1) {
+          // for(let addTopic = 0;addTopic<this.options.length;addTopic++){
+          //   let newTopic[] = this.options[addTopic]
+          // }
+          this.dynamicTags = this.dynamicTags.concat(paramObj);
+          this.$message({
+            type: 'success',
+            message: '修改成功!'
+          });
+        }
+
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+
   }
 }
 </script>

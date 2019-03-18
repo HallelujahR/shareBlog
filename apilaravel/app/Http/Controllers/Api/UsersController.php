@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\user_detail;
+use App\Models\topic_user;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\UserRequest;
 use App\Transformers\UserTransformer;
@@ -78,6 +79,21 @@ class UsersController extends Controller
 
     }
 
+    //用户对个人标签的操作
+    public function storeTopic(Request $request){
+        $user = $this->user();
+        $newArr = [];
+        foreach ($request->all() as $k => $v){
+            $newArr[$k]['uid'] = $user->id;
+            $newArr[$k]['topic_id'] = $v;
+        }
+        if($res = topic_user::insert($newArr)){
+            return 1;
+        }else{
+            return 2;
+        };
 
+
+    }
 }
 

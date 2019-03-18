@@ -29,7 +29,7 @@
              :src="detail.backgroundImg ? root+detail.backgroundImg : ''"
              slot="initial">
         <el-button round
-                   v-if="alterImgFlag & state"
+                   v-if="verbState && self.id == user.id"
                    id="alterImg"
                    @click="alterImg()"
                    style="">编辑图片</el-button>
@@ -39,8 +39,14 @@
            v-bind:style="{ width: width+'px'}">
 
         <div id="user-head-foot-main">
+          <avatar class="headPic"
+                  :size="200"
+                  :src="user.avatar ? this.root+user.avatar : ''"
+                  background-color="#1DA1F2"
+                  :username="user.name || '' "
+                  v-if="!verbState"></avatar>
 
-          <el-dropdown>
+          <el-dropdown v-else>
             <span class="el-dropdown-link HeadPicSpan">
               <avatar class="headPic"
                       :size="200"
@@ -50,7 +56,7 @@
             </span>
             <el-dropdown-menu slot="dropdown">
 
-              <el-dropdown-item>
+              <el-dropdown-item v-if="verbState && self.id == user.id">
                 <span @click="centerDialogVisible = true"><i class="el-icon-picture-outline"></i> 修改头像</span>
               </el-dropdown-item>
 
@@ -254,13 +260,13 @@ export default {
     this.$server.getInformation(paramsObj).then(data => {
       //获取到用户的基本信息
       this.user = data;
+      console.log(this.user);
       //获取到用户的详细信息
       this.detail = data.user_detail;
       //判断用户是否有背景图片 且是否是本人页面 然后更改高度
       //之所以使用定时器 是因为我别无他法 只能用定时器延迟然后获取数据
       setTimeout(() => {
-        if (this.user.backgroundImg != null || this.user.id == this.self.id) {
-          this.state = true;
+        if (this.user.backgroundImg != '' || this.user.id == this.self.id || this.user.backgroundImg != null) {
           this.height = 430;
         }
       }, 200);

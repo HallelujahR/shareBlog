@@ -75,6 +75,12 @@ $api->version('v1', [
             // 删除图片
             $api->patch('images/delete','ImagesController@delete')
                 ->name('api.images.delete');
+            //创建话题
+            $api->post('topics','TopicsController@store')
+                ->name('api.topics.store');
+            //用户添加个人标签
+            $api->post('addTopic','UsersController@storeTopic')
+                ->name('api.userTopic.store');
         });
     });
 
@@ -86,6 +92,10 @@ $api->version('v1', [
 	    //获取用户的数据
         $api->get('users/all', 'UsersController@all')
             ->name('api.user.information');
+
+        //获取话题
+        $api->get('topic/index','TopicsController@index')
+            ->name('api.topic.index');
 
 
     });

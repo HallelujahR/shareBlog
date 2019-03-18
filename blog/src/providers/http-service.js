@@ -45,6 +45,18 @@ export const server = {
   //编辑个人资料哦
   editDetail: function (paramObj) {
     return types.patch('/user', paramObj);
+  },
+  //获取所有个性标签
+  allTopic: function (paramObj) {
+    return types.fetch('/topic/index', paramObj);
+  },
+  //创建标签
+  storeTopic: function (paramObj) {
+    return types.post('topics', paramObj);
+  },
+  //增加个人标签
+  addTopic: function (paramObj) {
+    return types.post('/addTopic', paramObj);
   }
 
 };
