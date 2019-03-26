@@ -57,6 +57,14 @@ export const server = {
   //增加个人标签
   addTopic: function (paramObj) {
     return types.post('/addTopic', paramObj);
+  },
+  //获取个人标签
+  getPersonalTopic: function (paramObj) {
+    return types.fetch('/getPersonalTopic', paramObj);
+  },
+  //从个人编辑删除标签
+  delPersonalTopic: function (paramObj) {
+    return types.patch('/delPersonalTopic', paramObj)
   }
 
 };

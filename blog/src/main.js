@@ -11,7 +11,6 @@ import Croppa from 'vue-croppa';
 Vue.use(Croppa);
 
 Vue.component('avatar', () => import('vue-avatar'));  //引入自动生成头像插件
-
 Vue.prototype.$server = server;//定义全局变量axios
 Vue.prototype.$URL = 'http://api.blog.com';
 Vue.use(ElementUI);

@@ -8,6 +8,6 @@ class topic_user extends Model
 {
     //
     protected $fillable = [
-        'uid','topic_id'
+        'uid','topic_id','topic_name'
     ];
 }

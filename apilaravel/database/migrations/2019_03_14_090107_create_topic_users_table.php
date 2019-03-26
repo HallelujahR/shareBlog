@@ -17,6 +17,7 @@ class CreateTopicUserTable extends Migration
             $table->increments('id');
             $table->integer('uid')->comment('用户id');
             $table->integer('topic_id')->comment('标签id');
+            $table->string('topic_name')->comment('标签名称');
             $table->timestamps();
         });
     }

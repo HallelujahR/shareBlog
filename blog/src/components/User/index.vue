@@ -260,7 +260,7 @@ export default {
     this.$server.getInformation(paramsObj).then(data => {
       //获取到用户的基本信息
       this.user = data;
-      console.log(this.user);
+
       //获取到用户的详细信息
       this.detail = data.user_detail;
       //判断用户是否有背景图片 且是否是本人页面 然后更改高度

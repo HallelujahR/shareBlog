@@ -48,7 +48,7 @@
                 v-for="(tag,index) in dynamicTags"
                 closable
                 :disable-transitions="false"
-                @close="handleClose(tag,inidex)">
+                @close="handleClose(tag,index)">
           {{tag}}
         </el-tag>
         <el-input class="input-new-tag"
@@ -210,7 +210,7 @@ export default {
 
   },
   created: function () {
-
+    this.getPersonalTopic();
     //获取路由传递过来的用户id
     this.id = this.$route.params.id;
     //数据
@@ -288,17 +288,29 @@ export default {
     //话题标签
     //删除标签触发
     handleClose (tag) {
-      alert(tag);
       this.$confirm('您将移除此标签', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
+        let paramObj = {
+          'tag': tag,
+          'uid': this.$route.params.id,
+        };
+        this.$server.delPersonalTopic(paramObj).then(data => {
+          if (data == 1) {
+            this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          }
+
+        }).catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        })
+
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -316,9 +328,8 @@ export default {
             this.innerVisible = false;
             //合并数组
             this.options = this.options.concat(data);
-            console.log(this.options);
-            console.log(data);
           }).catch(err => {
+            // eslint-disable-next-line no-console
             console.log(err);
             //提示信息
             this.$message({
@@ -328,6 +339,7 @@ export default {
           });
 
         } else {
+          // eslint-disable-next-line no-console
           console.log('error submit!!');
           return false;
         }
@@ -335,6 +347,7 @@ export default {
     },
     //点击“没找到想要的”触发
     topicAdd () {
+      // eslint-disable-next-line no-console
       console.log(this.dynamicTags);
       this.innerVisible = true;
 
@@ -342,6 +355,20 @@ export default {
     //创建标签重制按钮
     resTopicForm (formName) {
       this.$refs[formName].resetFields();
+    },
+    //获取个人标签
+    getPersonalTopic () {
+      let paramObj = this.$route.params.id;
+      this.$server.getPersonalTopic(paramObj).then(data => {
+        for (let num = 0; num < data.length; num++) {
+          this.dynamicTags.push(data[num]['topic_name']);
+        }
+        // eslint-disable-next-line no-console
+        console.log(this.dynamicTags);
+      }).catch(err => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      })
     },
     //数组去重 用户已有的标签不会出现在选项当中
     clearTopic () {
@@ -357,18 +384,31 @@ export default {
         }
 
       }).catch(err => {
+        // eslint-disable-next-line no-console
         console.log(err);
       })
     },
     //点击确定增加个人标签
     addPersonalTopic () {
-      let paramObj = this.defaultTopic;
+      let newArr = {};
+      let topicName = '';
+      let topicAddName = [];
+      for (let num = 0; num < this.defaultTopic.length; num++) {
+        for (let topicNum = 0; topicNum < this.options.length; topicNum++) {
+          if (this.options[topicNum]['id'] == this.defaultTopic[num]) {
+            topicName = this.options[topicNum]['name'];
+          }
+        }
+        newArr[num] = { 'topic_id': this.defaultTopic[num], 'topic_name': topicName };
+        topicAddName[num] = topicName;
+      }
+
+      let paramObj = newArr;
       this.$server.addTopic(paramObj).then(data => {
         if (data == 1) {
-          // for(let addTopic = 0;addTopic<this.options.length;addTopic++){
-          //   let newTopic[] = this.options[addTopic]
-          // }
-          this.dynamicTags = this.dynamicTags.concat(paramObj);
+          this.dynamicTags = this.dynamicTags.concat(topicAddName);
+          this.clearTopic();
+          this.defaultTopic = [];
           this.$message({
             type: 'success',
             message: '修改成功!'
@@ -376,6 +416,7 @@ export default {
         }
 
       }).catch(err => {
+        // eslint-disable-next-line no-console
         console.log(err);
       })
     },

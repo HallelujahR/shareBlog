@@ -39,7 +39,7 @@ export default {
     }
   },
   components: {
-    'dh': () => import('./components/nav.vue'),//引入左侧导航组件
+    'dh': () => import('./components/nav.vue'),//引入上方导航组件
   },
   computed: {
     key () {

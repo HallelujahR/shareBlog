@@ -122,12 +122,9 @@
       </span>
 
       <el-dropdown-menu slot="dropdown">
-        <router-link class="user-link"
-                     :to="{ name: 'user', params: { id: user.id }}">
-          <el-dropdown-item>
-            <i class="el-icon-edit"></i> 发表文章
-          </el-dropdown-item>
-        </router-link>
+        <el-dropdown-item>
+          <storeArticle></storeArticle>
+        </el-dropdown-item>
 
         <router-link class="user-link"
                      :to="{ name: 'user', params: { id: user.id }}">
@@ -137,12 +134,14 @@
 
       </el-dropdown-menu>
     </el-dropdown>
+
   </div>
 
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import storeArticle from './function/storeArticle.vue'
 export default {
   data () {
     return {
@@ -153,6 +152,9 @@ export default {
       input6: '',
       root: '',
     }
+  },
+  components: {
+    storeArticle,//发布文章组件
   },
   computed: {
     ...mapState([

@@ -81,6 +81,12 @@ $api->version('v1', [
             //用户添加个人标签
             $api->post('addTopic','UsersController@storeTopic')
                 ->name('api.userTopic.store');
+            //删除用户标签
+            $api->patch('/delPersonalTopic','UsersController@delPersonalTopic')
+                ->name('api.delPersonalTopic.del');
+            //发布文章
+            $api->post('/storeArticle','ArticlesController@store')
+                ->name('api.storeArticle.store');
         });
     });
 
@@ -96,6 +102,10 @@ $api->version('v1', [
         //获取话题
         $api->get('topic/index','TopicsController@index')
             ->name('api.topic.index');
+        //获取用户标签
+        $api->get('getPersonalTopic','UsersController@getPersonalTopic')
+            ->name('api.user.topic');
+
 
 
     });

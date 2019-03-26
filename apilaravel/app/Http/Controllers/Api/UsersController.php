@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\topic;
 use App\Models\User;
 use App\Models\user_detail;
 use App\Models\topic_user;
@@ -83,9 +84,11 @@ class UsersController extends Controller
     public function storeTopic(Request $request){
         $user = $this->user();
         $newArr = [];
+
         foreach ($request->all() as $k => $v){
             $newArr[$k]['uid'] = $user->id;
-            $newArr[$k]['topic_id'] = $v;
+            $newArr[$k]['topic_id'] = $v['topic_id'];
+            $newArr[$k]['topic_name'] = $v['topic_name'];
         }
         if($res = topic_user::insert($newArr)){
             return 1;
@@ -94,6 +97,18 @@ class UsersController extends Controller
         };
 
 
+    }
+
+    //获取个人标签
+    public function getPersonalTopic(Request $request){
+        $topic = topic_user::where('uid','=',$request->all())->get();
+        return $topic;
+    }
+    //删除个人标签
+    public function delPersonalTopic(Request $request){
+        $topic_id = topic::where('name','=',$request->all()['tag'])->first()['id'];
+        $res = topic_user::where(['topic_id'=>$topic_id,'uid'=>$request->all()['uid']])->delete();
+        return $res;
     }
 }
 
