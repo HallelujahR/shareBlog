@@ -65,6 +65,10 @@ export const server = {
   //从个人编辑删除标签
   delPersonalTopic: function (paramObj) {
     return types.patch('/delPersonalTopic', paramObj)
+  },
+  //发布文章
+  storeArticle: function (paramObj) {
+    return types.post('/storeArticle', paramObj);
   }
 
 };

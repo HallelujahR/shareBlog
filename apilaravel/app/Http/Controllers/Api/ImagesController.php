@@ -59,6 +59,10 @@ class ImagesController extends Controller
             }else{
                 return '2';
             }
+        } else if($request->type == 'article'){
+            $path = '/uploads/'.$request->file('image')->store('/articlePic/'.date('Y-m-d'));
+
+            return $path;
         }
 
     }

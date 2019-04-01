@@ -364,7 +364,7 @@ export default {
           this.dynamicTags.push(data[num]['topic_name']);
         }
         // eslint-disable-next-line no-console
-        console.log(this.dynamicTags);
+        // console.log(this.dynamicTags);
       }).catch(err => {
         // eslint-disable-next-line no-console
         console.log(err);

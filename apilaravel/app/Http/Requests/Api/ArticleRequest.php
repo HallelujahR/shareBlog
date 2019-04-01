@@ -14,7 +14,7 @@ class ArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
+            'title' => 'required|string|between:1,30',
             'body' => 'required|string',
             'topic_id' => 'required|exists:topics,id',
         ];

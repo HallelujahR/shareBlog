@@ -15,7 +15,7 @@ class ImageRequest extends FormRequest
     {
 
         $rules = [
-            'type' => 'required|string|in:avatar,topic,backgroundImg,photo',
+            'type' => 'required|string|in:avatar,topic,backgroundImg,photo,article',
         ];
 
         if ($this->type == 'avatar') {
@@ -26,7 +26,7 @@ class ImageRequest extends FormRequest
 
         } else if($this->type == 'photo') {
 
-        }
+        } else if($this->type == 'article')
 
         return $rules;
     }
